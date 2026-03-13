@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/png" href="favicon.png">
   <title>NutriLens</title>
   <meta property="og:title" content="NutriLens — 건강을 담은 스마트 냉장고">
@@ -147,10 +147,11 @@
 
     /* ─── 하단 네비게이션 (항상 고정) ────────── */
     .app-nav {
-      height:64px; background:#fff;
+      height:calc(64px + env(safe-area-inset-bottom)); background:#fff;
       border-top:1px solid var(--slate-100);
-      display:flex; align-items:center;
+      display:flex; align-items:flex-start;
       flex-shrink:0; z-index:25;
+      padding-bottom:env(safe-area-inset-bottom);
     }
     .nav-item {
       flex:1; display:flex; flex-direction:column;
