@@ -10,7 +10,7 @@
 
 | | 링크 |
 |---|---|
-| 📱 **[→ 프로토타입 보러가기](frontend/demo.html)** | 앱 화면 인터랙티브 데모 |
+| 📱 **[→ 프로토타입 보러가기](https://jy3408.github.io/my-project/frontend/demo.html)** | 앱 화면 인터랙티브 데모 |
 | 📋 **[PRD (상세 기획서)](PRD.md)** | 기능 명세, 사용자 흐름, KPI |
 | 🎨 **[UI/UX 와이어프레임](docs/screen_wireframes.md)** | 디자인 시스템 + 인터랙션 가이드 |
 
