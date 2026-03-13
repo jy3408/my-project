@@ -49,7 +49,7 @@ Think Before Coding     → 모든 기능 구현 전 설계 단계를 거칠 것
 ### 프론트엔드 (현재)
 | 기술 | 설명 |
 |------|------|
-| 단일 HTML 파일 | `frontend/demo.html` — 외부 CDN 없음, 모든 CSS/JS 인라인 |
+| 단일 HTML 파일 | `index.html` — 외부 CDN 없음, 모든 CSS/JS 인라인 |
 | 모바일 앱 레이아웃 | 390px 고정폭, 고정 상단바 + 고정 하단 네비 |
 | 화면 전환 방식 | `position:absolute` + `opacity` 토글 (transition 없음 = 즉시 전환) |
 
@@ -78,7 +78,7 @@ my-project/
 │   │   └── allergens.py     # 22종 알레르기 + 질환별 금지 식재료 마스터 데이터
 │   └── requirements.txt
 ├── frontend/
-│   └── demo.html            # 모바일 앱 스타일 인터랙티브 프로토타입
+├── index.html               # 모바일 앱 스타일 인터랙티브 프로토타입
 ├── docs/
 │   └── screen_wireframes.md # UI/UX 설계안 (디자인 시스템 + 인터랙션 가이드)
 ├── CLAUDE.md                # 이 파일 — 협업 가이드

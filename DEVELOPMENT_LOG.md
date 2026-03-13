@@ -71,7 +71,7 @@ Chloe가 "로컬 폴더랑 GitHub에 backend 폴더가 안 보인다"고 보고.
 |------|------|
 | `backend/substitutes.py` | 차단 식재료별 대체 재료 추천 (`SUBSTITUTE_MAP` ~40개 항목) |
 | `backend/carbon.py` | FAO 기준 탄소 절감량 계산 (`CARBON_FACTORS` + 자동차 km/나무 그루 환산) |
-| `frontend/demo.html` | 스캔 결과 화면 모바일 프로토타입 (단일 HTML, 외부 CDN 없음) |
+| `index.html` | 스캔 결과 화면 모바일 프로토타입 (단일 HTML, 외부 CDN 없음) |
 
 ### main.py 엔드포인트 추가
 - `POST /api/substitutes` — 차단 재료에 대한 대체 식재료 추천
@@ -97,7 +97,7 @@ Chloe: "달걀이 몇 개인지, 우유가 몇 mL인지 정보가 없다"
 
 ### 조치
 - `database.py` 확인 → `ingredients` 테이블에 `quantity (text, nullable)` 컬럼 이미 존재 확인
-- `demo.html` 식재료 카드에 수량 정보 표시 추가 (예: 달걀 6개, 우유 500mL)
+- `index.html` 식재료 카드에 수량 정보 표시 추가 (예: 달걀 6개, 우유 500mL)
 - 별도 DB 마이그레이션 불필요
 
 ---
@@ -137,7 +137,7 @@ Chloe: "기획서가 텍스트만 있어서 심심하다. 실제 UI/UX 설계안
 ### 배경
 Chloe: "진짜 AI 연동은 안 해도 되니까 사진 업로드 시 AI가 분석하는 척하는 로딩 바만 구현해줘"
 
-### demo.html 인터랙션 추가
+### index.html 인터랙션 추가
 - `startLoading()` — 4단계 가짜 AI 분석 시퀀스 (이미지 수신 → 식재료 인식 → 건강 프로필 대조 → 결과 생성), 총 ~3초
 - 소나 링 애니메이션 + 단계별 텍스트 전환 로딩 오버레이
 - `showResults()` — 로딩 완료 후 스캔 결과 화면으로 자동 전환

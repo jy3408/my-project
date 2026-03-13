@@ -10,7 +10,7 @@
 
 | | 링크 |
 |---|---|
-| 📱 **[→ 프로토타입 보러가기](https://jy3408.github.io/my-project/frontend/demo.html)** | 앱 화면 인터랙티브 데모 |
+| 📱 **[→ 프로토타입 보러가기](https://jy3408.github.io/my-project/)** | 앱 화면 인터랙티브 데모 |
 | 📋 **[PRD (상세 기획서)](PRD.md)** | 기능 명세, 사용자 흐름, KPI |
 | 🎨 **[UI/UX 와이어프레임](docs/screen_wireframes.md)** | 디자인 시스템 + 인터랙션 가이드 |
 
@@ -149,7 +149,7 @@ my-project/
 │   └── data/
 │       └── allergens.py  # 식약처 22종 · 질환별 금지 식재료 마스터 데이터
 ├── frontend/
-│   └── demo.html         # 앱 화면 인터랙티브 프로토타입 (브라우저에서 바로 실행)
+├── index.html            # 앱 화면 인터랙티브 프로토타입 (브라우저에서 바로 실행)
 ├── docs/
 │   └── screen_wireframes.md  # 7개 화면 텍스트 와이어프레임
 └── PRD.md                # 상세 기획 문서
@@ -178,7 +178,7 @@ uvicorn main:app --reload
 
 ### 프로토타입 확인
 
-`frontend/demo.html` 파일을 브라우저에서 열면 앱 화면을 바로 확인할 수 있습니다.
+`index.html` 파일을 브라우저에서 열면 앱 화면을 바로 확인할 수 있습니다.
 
 ---
 
