@@ -1,0 +1,38 @@
+# =============================================================================
+# NutriLens .gitignore
+# =============================================================================
+
+# 환경변수 (API 키, DB 접속 정보 등 절대 커밋 금지)
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# 가상환경
+venv/
+.venv/
+env/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# 빌드 산출물
+dist/
+build/
+*.egg-info/
+
+# 테스트 커버리지
+.coverage
+htmlcov/
