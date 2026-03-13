@@ -1318,6 +1318,12 @@
       requestAnimationFrame(run);
     }, 400);
   }
+
+  document.querySelectorAll('.rbtn-view').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alert('Gemini가 열심히 레시피를 요리하고 있어요! 👨‍🍳\n현재 데모에서는 메인 기능 위주로 확인 가능하며, 상세 페이지는 곧 업데이트될 예정입니다.');
+    });
+  });
 </script>
 
 </body>
