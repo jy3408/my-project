@@ -6,7 +6,7 @@
 
 ## 🧠 Development Philosophy: Andrej Karpathy's Guidelines
 
-저는 효율적인 AI 협업과 코드 실수를 방지하기 위해 **Andrej Karpathy**의 가이드라인을 엄격히 준수하며 개발했습니다.
+저희 팀은 효율적인 AI 협업과 코드 실수를 방지하기 위해 **Andrej Karpathy**의 가이드라인을 엄격히 준수하며 개발했습니다.
 
 1. **코딩 전 철저한 사고 (Think Before Coding):** 불명확한 추측을 배제하고 구현 전 가설을 명확히 함.
 2. **단순함의 미학 (Simplicity First):** 오버 엔지니어링 없는 최소한의 핵심 코드 구현.
