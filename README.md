@@ -4,13 +4,15 @@
 
 냉장고를 찍으면 — 내 질환·알레르기에 맞게 재료를 걸러주고, 오늘 버려질 위기의 재료를 살려 건강한 저녁을 차려드립니다.
 
+> 본 프로젝트는 **[📄 PRD (상세 기획서)](PRD.md)**를 통해 기획 의도를 확인하신 후, 아래의 **[🚀 라이브 데모](https://jy3408.github.io/my-project/)**를 체험하시는 것을 권장드립니다.
+
 ---
 
 ## 🔗 바로가기
 
 | | 링크 |
 |---|---|
-| 📱 **[→ 프로토타입 보러가기](https://jy3408.github.io/my-project/)** | 앱 화면 인터랙티브 데모 |
+| 🚀 **<a href="https://jy3408.github.io/my-project/" target="_blank">→ 라이브 데모 바로가기 (Interactive Prototype)</a>** | 앱 화면 인터랙티브 데모 |
 | 📋 **[PRD (상세 기획서)](PRD.md)** | 기능 명세, 사용자 흐름, KPI |
 | 🎨 **[UI/UX 와이어프레임](docs/screen_wireframes.md)** | 디자인 시스템 + 인터랙션 가이드 |
 
@@ -176,7 +178,7 @@ uvicorn main:app --reload
 - **API 문서**: http://localhost:8000/docs
 - **헬스체크**: http://localhost:8000
 
-### 프로토타입 확인
+### 라이브 데모 확인
 
 `index.html` 파일을 브라우저에서 열면 앱 화면을 바로 확인할 수 있습니다.
 
@@ -260,7 +262,7 @@ POST /api/recommend
 | 대체 식재료 추천 (40+ 매핑 데이터) | ✅ 완료 |
 | 탄소 절감 계산 (FAO 기준 CO₂ 계수) | ✅ 완료 |
 | FastAPI 백엔드 + 7개 API 엔드포인트 | ✅ 완료 |
-| 인터랙티브 앱 프로토타입 (demo.html) | ✅ 완료 |
+| 인터랙티브 앱 프로토타입 (index.html) | ✅ 완료 |
 | UI/UX 설계안 (디자인 시스템 + 인터랙션 가이드) | ✅ 완료 |
 
 ---
