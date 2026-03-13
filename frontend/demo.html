@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriLens — 스캔 결과</title>
+  <style>
+    /* ============================================================
+       TOKENS & RESET
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --em-50:  #ecfdf5;
+      --em-100: #d1fae5;
+      --em-200: #a7f3d0;
+      --em-400: #34d399;
+      --em-500: #10b981;
+      --em-600: #059669;
+      --em-700: #047857;
+      --em-800: #065f46;
+
+      --red-50:  #fff1f2;
+      --red-400: #f87171;
+      --red-500: #ef4444;
+      --red-600: #dc2626;
+
+      --orange-400: #fb923c;
+      --orange-500: #f97316;
+
+      --yellow-400: #facc15;
+      --yellow-500: #eab308;
+
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+
+      --radius-sm:  8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.1),  0 2px 4px rgba(0,0,0,.06);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.25), 0 8px 20px rgba(0,0,0,.15);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================
+       DESKTOP STAGE  — organic dark background
+    ============================================================ */
+    body {
+      background: #0a1628;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .35;
+      pointer-events: none;
+    }
+    body::before {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, #059669, transparent 70%);
+      top: -120px; left: -120px;
+    }
+    body::after {
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, #1d4ed8, transparent 70%);
+      bottom: -100px; right: -80px;
+    }
+
+    /* ============================================================
+       PHONE SHELL
+    ============================================================ */
+    .phone {
+      position: relative;
+      width: 393px;
+      height: 852px;
+      background: #ffffff;
+      border-radius: 50px;
+      box-shadow:
+        var(--shadow-lg),
+        inset 0 0 0 1.5px rgba(255,255,255,.15),
+        0 0 0 12px #111827,
+        0 0 0 13px #1f2937,
+        0 40px 80px rgba(0,0,0,.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      /* Side button highlights */
+    }
+
+    /* Physical side buttons */
+    .phone::before {
+      content: '';
+      position: absolute;
+      left: -15px; top: 140px;
+      width: 4px; height: 36px;
+      background: #1f2937;
+      border-radius: 2px 0 0 2px;
+      box-shadow: 0 50px 0 #1f2937, 0 100px 0 #1f2937;
+    }
+    .phone::after {
+      content: '';
+      position: absolute;
+      right: -15px; top: 175px;
+      width: 4px; height: 72px;
+      background: #1f2937;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ============================================================
+       STATUS BAR
+    ============================================================ */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px 8px;
+      background: #fff;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 5;
+    }
+    .status-time {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--slate-800);
+      letter-spacing: -.3px;
+    }
+    .status-icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .status-icons svg {
+      fill: var(--slate-800);
+    }
+
+    /* Dynamic island */
+    .dynamic-island {
+      position: absolute;
+      top: 12px; left: 50%;
+      transform: translateX(-50%);
+      width: 120px; height: 34px;
+      background: #0a1628;
+      border-radius: 20px;
+    }
+
+    /* ============================================================
+       APP HEADER
+    ============================================================ */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px 10px;
+      background: #fff;
+      border-bottom: 1px solid #f1f5f9;
+      flex-shrink: 0;
+    }
+    .header-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--em-600);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .header-back svg { flex-shrink: 0; }
+    .header-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--slate-800);
+      letter-spacing: -.4px;
+    }
+    .header-share {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--em-50);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .header-share:hover { background: var(--em-100); }
+
+    /* ============================================================
+       SUMMARY BAR
+    ============================================================ */
+    .summary-bar {
+      display: flex;
+      gap: 0;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--em-600) 0%, var(--em-500) 100%);
+      flex-shrink: 0;
+    }
+    .summary-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .summary-item + .summary-item {
+      border-left: 1px solid rgba(255,255,255,.25);
+    }
+    .summary-num {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.5px;
+    }
+    .summary-label {
+      font-size: 11px;
+      color: rgba(255,255,255,.8);
+      font-weight: 500;
+      letter-spacing: .2px;
+    }
+
+    /* ============================================================
+       SCROLLABLE CONTENT
+    ============================================================ */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      background: #f8fafc;
+      scroll-behavior: smooth;
+    }
+    .content::-webkit-scrollbar { width: 0; }
+
+    .section {
+      padding: 16px 16px 4px;
+    }
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--slate-400);
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+
+    /* ============================================================
+       INGREDIENT CARD
+    ============================================================ */
+    .card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 8px;
+      border-left: 4px solid transparent;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeUp .4s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-inner {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px;
+      gap: 12px;
+    }
+
+    .card-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .card-body { flex: 1; min-width: 0; }
+    .card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--slate-800);
+      letter-spacing: -.3px;
+    }
+    .card-meta {
+      font-size: 12px;
+      color: var(--slate-400);
+      margin-top: 2px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: .2px;
+    }
+
+    /* Status variants */
+    .card.expired   { border-left-color: var(--red-500); }
+    .card.golden    { border-left-color: var(--orange-500); }
+    .card.caution   { border-left-color: var(--yellow-500); }
+    .card.safe      { border-left-color: var(--slate-300); }
+    .card.blocked   { border-left-color: var(--red-500); background: var(--red-50); }
+
+    .card.expired   .card-icon { background: #fff1f2; }
+    .card.golden    .card-icon { background: #fff7ed; }
+    .card.caution   .card-icon { background: #fefce8; }
+    .card.safe      .card-icon { background: #f8fafc; }
+    .card.blocked   .card-icon { background: #ffe4e6; }
+
+    .badge.expired  { background: var(--red-500);    color: #fff; }
+    .badge.golden   { background: var(--orange-500); color: #fff; }
+    .badge.caution  { background: var(--yellow-400); color: #78350f; }
+    .badge.safe-b   { background: var(--slate-100);  color: var(--slate-500); }
+    .badge.blocked-b{ background: var(--red-500);    color: #fff; }
+
+    /* Golden time pulse */
+    .badge.golden {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,.5); }
+      50%       { box-shadow: 0 0 0 5px rgba(249,115,22,.0); }
+    }
+
+    /* ============================================================
+       SUBSTITUTE CHIPS
+    ============================================================ */
+    .substitute-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 14px 12px 66px;
+      flex-wrap: wrap;
+    }
+    .sub-label {
+      font-size: 11px;
+      color: var(--slate-400);
+      font-weight: 500;
+    }
+    .sub-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--em-50);
+      border: 1px solid var(--em-200);
+      color: var(--em-700);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .18s;
+      white-space: nowrap;
+    }
+    .sub-chip:hover {
+      background: var(--em-100);
+      border-color: var(--em-400);
+      transform: translateY(-1px);
+    }
+    .sub-chip-icon { font-size: 11px; }
+
+    .blocked-reason {
+      font-size: 11.5px;
+      color: var(--red-600);
+      font-weight: 600;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ============================================================
+       CARBON CARD
+    ============================================================ */
+    .carbon-card {
+      margin: 8px 16px 12px;
+      background: linear-gradient(135deg, var(--em-700) 0%, var(--em-500) 55%, #34d399 100%);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp .4s ease .8s forwards;
+    }
+    /* Decorative circle */
+    .carbon-card::before {
+      content: '';
+      position: absolute;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      border: 28px solid rgba(255,255,255,.1);
+      top: -50px; right: -40px;
+    }
+    .carbon-card::after {
+      content: '';
+      position: absolute;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 14px solid rgba(255,255,255,.08);
+      bottom: -20px; right: 60px;
+    }
+
+    .carbon-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .carbon-icon {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,.2);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+    .carbon-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      opacity: .9;
+    }
+    .carbon-subtitle { font-size: 11px; opacity: .7; margin-top: 1px; }
+
+    .carbon-main {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+    .carbon-num {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1;
+    }
+    .carbon-unit {
+      font-size: 16px;
+      font-weight: 600;
+      opacity: .85;
+    }
+    .carbon-label {
+      font-size: 12px;
+      opacity: .75;
+      margin-left: 2px;
+    }
+
+    .carbon-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .carbon-stat {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: .92;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .carbon-bar-wrap {
+      background: rgba(0,0,0,.2);
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+    }
+    .carbon-bar-fill {
+      height: 100%;
+      background: rgba(255,255,255,.7);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 1.5s cubic-bezier(.22,1,.36,1) .2s;
+    }
+
+    /* ============================================================
+       CTA BUTTON
+    ============================================================ */
+    .cta-wrap {
+      padding: 8px 16px 20px;
+      background: #f8fafc;
+      flex-shrink: 0;
+    }
+    .cta-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--em-600), var(--em-500));
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -.2px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(5,150,105,.4);
+      transition: transform .18s, box-shadow .18s;
+      opacity: 0;
+      animation: fadeUp .4s ease 1s forwards;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(5,150,105,.5);
+    }
+    .cta-btn:active { transform: translateY(0); }
+    .cta-arrow { font-size: 18px; transition: transform .2s; }
+    .cta-btn:hover .cta-arrow { transform: translateX(4px); }
+
+    /* ============================================================
+       ANIMATION DELAYS (stagger)
+    ============================================================ */
+    .card:nth-child(1) { animation-delay: .05s; }
+    .card:nth-child(2) { animation-delay: .12s; }
+    .card:nth-child(3) { animation-delay: .19s; }
+    .card:nth-child(4) { animation-delay: .26s; }
+    .card:nth-child(5) { animation-delay: .33s; }
+    .card:nth-child(6) { animation-delay: .40s; }
+    .card:nth-child(7) { animation-delay: .47s; }
+    .card:nth-child(8) { animation-delay: .54s; }
+
+    /* ============================================================
+       HOME INDICATOR
+    ============================================================ */
+    .home-indicator {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      flex-shrink: 0;
+    }
+    .home-bar {
+      width: 130px; height: 5px;
+      background: var(--slate-300);
+      border-radius: 3px;
+    }
+
+    /* ============================================================
+       DESKTOP LABEL
+    ============================================================ */
+    .desktop-label {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      padding: 8px 18px;
+      border-radius: 40px;
+      color: rgba(255,255,255,.6);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .3px;
+      white-space: nowrap;
+      z-index: 5;
+    }
+    .desktop-label span { color: rgba(255,255,255,.9); font-weight: 700; }
+
+    /* Utility */
+    .slate-100 { background: #f1f5f9; }
+  </style>
+</head>
+<body>
+
+  <!-- ── PHONE SHELL ────────────────────────────────── -->
+  <div class="phone">
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="dynamic-island"></div>
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <!-- Signal -->
+        <svg width="17" height="12" viewBox="0 0 17 12">
+          <rect x="0"  y="8" width="3" height="4" rx="1"/>
+          <rect x="4.5" y="5.5" width="3" height="6.5" rx="1"/>
+          <rect x="9"  y="3" width="3" height="9" rx="1"/>
+          <rect x="13.5" y="0" width="3" height="12" rx="1"/>
+        </svg>
+        <!-- Wifi -->
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+          <path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="#1e293b"/>
+          <path d="M3.5 6.8A6.5 6.5 0 0 1 8 5a6.5 6.5 0 0 1 4.5 1.8" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M1 3.8A10 10 0 0 1 8 1a10 10 0 0 1 7 2.8" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <!-- Battery -->
+        <svg width="25" height="12" viewBox="0 0 25 12">
+          <rect x="0" y="1" width="21" height="10" rx="2.5" stroke="#1e293b" stroke-width="1.2" fill="none"/>
+          <rect x="22" y="3.5" width="2.5" height="5" rx="1.2" fill="#1e293b"/>
+          <rect x="1.5" y="2.5" width="15" height="7" rx="1.5" fill="#1e293b"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- App Header -->
+    <div class="app-header">
+      <div class="header-back">
+        <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
+          <path d="M7 1L1 7l6 6" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        뒤로
+      </div>
+      <span class="header-title">스캔 결과</span>
+      <div class="header-share">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <circle cx="18" cy="5"  r="3" stroke="#059669" stroke-width="2"/>
+          <circle cx="6"  cy="12" r="3" stroke="#059669" stroke-width="2"/>
+          <circle cx="18" cy="19" r="3" stroke="#059669" stroke-width="2"/>
+          <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" stroke="#059669" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Summary Bar -->
+    <div class="summary-bar">
+      <div class="summary-item">
+        <span class="summary-num">8</span>
+        <span class="summary-label">인식됨</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">5</span>
+        <span class="summary-label">✅ 안전</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">3</span>
+        <span class="summary-label">🚫 차단</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="content" id="content">
+
+      <!-- ── 사용 가능 섹션 ── -->
+      <div class="section">
+        <div class="section-title">사용 가능</div>
+
+        <!-- 1. 달걀 — 기한초과 -->
+        <div class="card expired">
+          <div class="card-inner">
+            <div class="card-icon">🥚</div>
+            <div class="card-body">
+              <div class="card-name">달걀</div>
+              <div class="card-meta">유통기한 초과 · 2일 지남</div>
+            </div>
+            <span class="badge expired">기한초과</span>
+          </div>
+        </div>
+
+        <!-- 2. 우유 — 골든타임 -->
+        <div class="card golden">
+          <div class="card-inner">
+            <div class="card-icon">🥛</div>
+            <div class="card-body">
+              <div class="card-name">우유</div>
+              <div class="card-meta">D-1 · 내일까지</div>
+            </div>
+            <span class="badge golden">골든타임</span>
+          </div>
+        </div>
+
+        <!-- 3. 당근 — 주의 -->
+        <div class="card caution">
+          <div class="card-inner">
+            <div class="card-icon">🥕</div>
+            <div class="card-body">
+              <div class="card-name">당근</div>
+              <div class="card-meta">D-4 · 4일 남음</div>
+            </div>
+            <span class="badge caution">주의</span>
+          </div>
+        </div>
+
+        <!-- 4. 양파 — 여유 -->
+        <div class="card safe">
+          <div class="card-inner">
+            <div class="card-icon">🧅</div>
+            <div class="card-body">
+              <div class="card-name">양파</div>
+              <div class="card-meta">D-28 · 여유 있음</div>
+            </div>
+            <span class="badge safe-b">여유</span>
+          </div>
+        </div>
+
+        <!-- 5. 브로콜리 — 기한미입력 -->
+        <div class="card safe">
+          <div class="card-inner">
+            <div class="card-icon">🥦</div>
+            <div class="card-body">
+              <div class="card-name">브로콜리</div>
+              <div class="card-meta">유통기한 미입력</div>
+            </div>
+            <span class="badge safe-b">기한미입력</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 사용 불가 섹션 ── -->
+      <div class="section">
+        <div class="section-title">사용 불가 · 대체 재료 추천</div>
+
+        <!-- 6. 설탕 — 당뇨 -->
+        <div class="card blocked">
+          <div class="card-inner">
+            <div class="card-icon">🍬</div>
+            <div class="card-body">
+              <div class="card-name">설탕</div>
+              <div class="blocked-reason">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
+                질환 제한: 당뇨
+              </div>
+            </div>
+            <span class="badge blocked-b">차단</span>
+          </div>
+        </div>
+        <div class="substitute-row">
+          <span class="sub-label">대체재</span>
+          <span class="sub-chip"><span class="sub-chip-icon">🔄</span>스테비아</span>
+          <span class="sub-chip"><span class="sub-chip-icon">🔄</span>알룰로스</span>
+        </div>
+
+        <!-- 7. 소금 — 고혈압 -->
+        <div class="card blocked">
+          <div class="card-inner">
+            <div class="card-icon">🧂</div>
+            <div class="card-body">
+              <div class="card-name">소금</div>
+              <div class="blocked-reason">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
+                질환 제한: 고혈압
+              </div>
+            </div>
+            <span class="badge blocked-b">차단</span>
+          </div>
+        </div>
+        <div class="substitute-row">
+          <span class="sub-label">대체재</span>
+          <span class="sub-chip"><span class="sub-chip-icon">🔄</span>저나트륨 소금</span>
+          <span class="sub-chip"><span class="sub-chip-icon">🔄</span>레몬즙</span>
+        </div>
+
+        <!-- 8. 우유 (알레르기) -->
+        <div class="card blocked">
+          <div class="card-inner">
+            <div class="card-icon">🥛</div>
+            <div class="card-body">
+              <div class="card-name">우유 <span style="font-size:11px;font-weight:500;color:#94a3b8;">(2번째)</span></div>
+              <div class="blocked-reason">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
+                알레르기: 우유
+              </div>
+            </div>
+            <span class="badge blocked-b">차단</span>
+          </div>
+        </div>
+        <div class="substitute-row">
+          <span class="sub-label">대체재</span>
+          <span class="sub-chip"><span class="sub-chip-icon">🔄</span>귀리 음료</span>
+          <span class="sub-chip"><span class="sub-chip-icon">🔄</span>두유</span>
+        </div>
+      </div>
+
+      <!-- ── 환경 임팩트 카드 ── -->
+      <div class="carbon-card" id="carbonCard">
+        <div class="carbon-header">
+          <div class="carbon-icon">🌿</div>
+          <div>
+            <div class="carbon-title">오늘의 환경 임팩트</div>
+            <div class="carbon-subtitle">골든타임 재료 소비 시 예상 절감량</div>
+          </div>
+        </div>
+
+        <div class="carbon-main">
+          <span class="carbon-num" id="co2Counter">0</span>
+          <span class="carbon-unit">kg</span>
+          <span class="carbon-label">CO₂ 절감</span>
+        </div>
+
+        <div class="carbon-stats">
+          <div class="carbon-stat">🚗 자동차 10.3km 주행 절약과 같아요</div>
+          <div class="carbon-stat">🌳 나무 1그루가 21.6일간 흡수하는 양</div>
+        </div>
+
+        <div class="carbon-bar-wrap">
+          <div class="carbon-bar-fill" id="carbonBar"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <!-- CTA Button -->
+    <div class="cta-wrap">
+      <button class="cta-btn">
+        레시피 추천 받기
+        <span class="cta-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator">
+      <div class="home-bar"></div>
+    </div>
+
+  </div><!-- /phone -->
+
+  <!-- Desktop Label -->
+  <div class="desktop-label">
+    <span>NutriLens</span> &nbsp;·&nbsp; 스캔 결과 프로토타입
+  </div>
+
+  <script>
+    // CO2 카운터 애니메이션
+    function animateCounter(el, target, duration) {
+      const start = performance.now();
+      const update = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // ease out cubic
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (target * ease).toFixed(2);
+        if (progress < 1) requestAnimationFrame(update);
+        else el.textContent = target.toFixed(2);
+      };
+      requestAnimationFrame(update);
+    }
+
+    // 카드가 보이면 탄소 카드 애니메이션 실행
+    const carbonCard = document.getElementById('carbonCard');
+    const carbonBar  = document.getElementById('carbonBar');
+    const co2Counter = document.getElementById('co2Counter');
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // 바 채우기
+          setTimeout(() => { carbonBar.style.width = '62%'; }, 300);
+          // 숫자 카운트업
+          setTimeout(() => { animateCounter(co2Counter, 1.24, 1400); }, 400);
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    obs.observe(carbonCard);
+  </script>
+
+</body>
+</html>

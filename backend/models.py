@@ -86,6 +86,61 @@ class GoldenTimeIngredient(BaseModel):
 
 
 # -----------------------------------------------------------------------------
+# 대체 식재료 옵션 (단일 대체재)
+# -----------------------------------------------------------------------------
+class SubstituteOption(BaseModel):
+    name: str = Field(description="대체 식재료명. 예: '스테비아'")
+    reason: str = Field(description="대체 이유. 예: '혈당 영향 없이 단맛을 냄'")
+    health_benefit: str = Field(description="건강 이점. 예: '혈당 지수 0, 칼로리 제로'")
+
+
+# -----------------------------------------------------------------------------
+# 대체 식재료 추천 결과 (차단된 재료 1개에 대한 추천)
+# -----------------------------------------------------------------------------
+class SubstituteRecommendation(BaseModel):
+    blocked_ingredient: BlockedIngredient = Field(
+        description="차단된 원래 식재료 (차단 사유 포함)"
+    )
+    substitutes: list[SubstituteOption] = Field(
+        description="추천 대체 식재료 목록 (최대 3개)"
+    )
+    has_substitute: bool = Field(
+        description="대체재가 1개 이상 있으면 True, 없으면 False"
+    )
+
+
+# -----------------------------------------------------------------------------
+# 식재료별 탄소 절감 상세
+# -----------------------------------------------------------------------------
+class IngredientCarbonDetail(BaseModel):
+    ingredient_name: str = Field(description="식재료명")
+    weight_kg: float = Field(description="추정 무게 (kg)")
+    carbon_factor: float = Field(description="사용된 탄소 배출 계수 (kg CO2e/kg)")
+    co2_saved_kg: float = Field(description="이 식재료로 절감한 CO2 (kg)")
+
+
+# -----------------------------------------------------------------------------
+# 탄소 절감 계산 결과
+# -----------------------------------------------------------------------------
+class CarbonSavingResult(BaseModel):
+    total_co2_saved_kg: float = Field(
+        description="총 CO2 절감량 (kg)"
+    )
+    car_km_equivalent: float = Field(
+        description="자동차 주행 거리 환산 (km). '자동차 N km 주행 절약'"
+    )
+    tree_days_equivalent: float = Field(
+        description="나무 흡수 일수 환산. '나무 1그루가 N일간 흡수하는 양'"
+    )
+    ingredient_details: list[IngredientCarbonDetail] = Field(
+        description="식재료별 탄소 절감 상세 내역"
+    )
+    impact_message: str = Field(
+        description="사용자에게 보여줄 친숙한 환경 임팩트 메시지"
+    )
+
+
+# -----------------------------------------------------------------------------
 # 통합 레시피 추천 요청
 # - 필터링 + 골든타임 계산 + 레시피 추천을 한 번에 요청
 # -----------------------------------------------------------------------------
@@ -114,7 +169,17 @@ class RecipeRecommendationResponse(BaseModel):
     golden_time_ranked: list[GoldenTimeIngredient] = Field(
         description="유통기한 임박 순으로 정렬된 안전한 식재료 목록"
     )
-    # 3단계: 추천 레시피 (MVP에서는 placeholder)
+    # 3단계: 차단된 재료에 대한 대체 식재료 추천
+    substitute_recommendations: list[SubstituteRecommendation] = Field(
+        default=[],
+        description="차단된 재료별 건강한 대체 식재료 목록"
+    )
+    # 4단계: 탄소 절감 계산 결과
+    carbon_saving: Optional[CarbonSavingResult] = Field(
+        default=None,
+        description="골든타임 재료 소비 시 탄소 절감 효과"
+    )
+    # 5단계: 추천 레시피 (MVP에서는 placeholder)
     recommended_recipes: list[dict] = Field(
         default=[],
         description="추천 레시피 목록 (추후 AI 연동 시 채워짐)"
