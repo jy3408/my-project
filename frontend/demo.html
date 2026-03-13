@@ -3,101 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NutriLens — 스캔 결과</title>
+  <title>NutriLens — 인터랙티브 데모</title>
   <style>
     /* ============================================================
-       디자인 시스템 토큰 (screen_wireframes.md 1-1 ~ 1-6 반영)
+       디자인 시스템 토큰
     ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Primary */
-      --em-50:  #ecfdf5;
-      --em-100: #d1fae5;
-      --em-200: #a7f3d0;
-      --em-400: #34d399;
-      --em-500: #10b981;
-      --em-600: #059669;
-      --em-700: #047857;
-      --em-800: #065f46;
+      --em-50:  #ecfdf5; --em-100: #d1fae5; --em-200: #a7f3d0;
+      --em-400: #34d399; --em-500: #10b981; --em-600: #059669;
+      --em-700: #047857; --em-800: #065f46;
 
-      /* Danger */
-      --red-50:  #fff1f2;
-      --red-400: #f87171;
-      --red-500: #ef4444;
-      --red-600: #dc2626;
-
-      /* Warning / Caution */
-      --orange-400: #fb923c;
+      --red-50:  #fff1f2; --red-500: #ef4444; --red-600: #dc2626;
       --orange-500: #f97316;
       --yellow-400: #facc15;
 
-      /* Neutral */
-      --slate-100: #f1f5f9;
-      --slate-200: #e2e8f0;
-      --slate-300: #cbd5e1;
-      --slate-400: #94a3b8;
-      --slate-500: #64748b;
-      --slate-600: #475569;
-      --slate-700: #334155;
-      --slate-800: #1e293b;
-      --slate-900: #0f172a;
+      --slate-100: #f1f5f9; --slate-200: #e2e8f0; --slate-300: #cbd5e1;
+      --slate-400: #94a3b8; --slate-500: #64748b; --slate-600: #475569;
+      --slate-800: #1e293b; --slate-900: #0f172a;
 
-      /* 간격 시스템 (1-6) */
-      --space-xs:  4px;
-      --space-sm:  8px;
-      --space-md: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
-
-      /* 반경 */
-      --radius-sm:  8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-      --radius-xl: 28px;
-
-      /* 그림자 */
+      --radius-md: 14px; --radius-lg: 20px;
       --shadow-sm: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.04);
       --shadow-md: 0 4px 16px rgba(0,0,0,.09), 0 2px 4px rgba(0,0,0,.05);
       --shadow-lg: 0 24px 64px rgba(0,0,0,.28), 0 8px 24px rgba(0,0,0,.16);
-
-      /* 타이포그래피 (1-2) */
-      --font-card-name:  15px;
-      --font-meta:       12px;
-      --font-badge:      11.5px;
-      --font-section:    11px;
-      --font-header:     17px;
-      --font-cta:        16px;
     }
 
     html, body {
       height: 100%;
-      /* 타이포그래피 가이드 적용 */
       font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
     }
 
-    /* ============================================================
-       데스크탑 배경 — 딥 다크 + 그린 / 블루 글로우 + 노이즈 텍스처
-    ============================================================ */
+    /* ── 데스크탑 배경 ─────────────────────────────── */
     body {
       background: #071220;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; overflow: hidden; position: relative;
     }
-
-    /* 배경 글로우 블롭 */
     .bg-blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(100px);
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; border-radius: 50%;
+      filter: blur(100px); pointer-events: none; z-index: 0;
     }
     .bg-blob-1 {
       width: 580px; height: 580px;
@@ -109,586 +55,353 @@
       background: radial-gradient(circle, rgba(29,78,216,.4), transparent 65%);
       bottom: -120px; right: -100px;
     }
-    .bg-blob-3 {
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(16,185,129,.2), transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-    }
 
-    /* ============================================================
-       폰 외형 (1-3 버튼 높이 기준 반영)
-    ============================================================ */
+    /* ── 폰 프레임 ───────────────────────────────────── */
     .phone {
-      position: relative;
-      width: 393px;
-      height: 852px;
-      background: #f8fafc; /* Background 토큰 */
-      border-radius: 52px;
-      box-shadow:
-        var(--shadow-lg),
-        0 0 0 1px rgba(255,255,255,.06) inset,
-        0 0 0 11px #0d1b2a,
-        0 0 0 12.5px #1a2e42,
+      position: relative; width: 393px; height: 852px;
+      background: #f4f7fb; border-radius: 52px;
+      box-shadow: var(--shadow-lg),
+        0 0 0 11px #0d1b2a, 0 0 0 12.5px #1a2e42,
         0 48px 96px rgba(0,0,0,.55);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      z-index: 10;
+      overflow: hidden; display: flex; flex-direction: column; z-index: 10;
     }
-
-    /* 물리 버튼 */
     .phone::before {
-      content: '';
-      position: absolute;
-      left: -14px; top: 148px;
-      width: 3.5px; height: 34px;
-      background: #1a2e42;
-      border-radius: 2px 0 0 2px;
+      content: ''; position: absolute;
+      left: -14px; top: 148px; width: 3.5px; height: 34px;
+      background: #1a2e42; border-radius: 2px 0 0 2px;
       box-shadow: 0 52px 0 #1a2e42, 0 104px 0 #1a2e42;
     }
     .phone::after {
-      content: '';
-      position: absolute;
-      right: -14px; top: 184px;
-      width: 3.5px; height: 70px;
-      background: #1a2e42;
-      border-radius: 0 2px 2px 0;
+      content: ''; position: absolute;
+      right: -14px; top: 184px; width: 3.5px; height: 70px;
+      background: #1a2e42; border-radius: 0 2px 2px 0;
     }
 
-    /* ============================================================
-       상태바
-    ============================================================ */
+    /* ── 상태바 ──────────────────────────────────────── */
     .status-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 28px 6px;
-      background: #fff;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 5;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 28px 6px; background: #fff;
+      flex-shrink: 0; position: relative; z-index: 20;
     }
-    .status-time {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--slate-900);
-      letter-spacing: -.4px;
-    }
+    .status-time { font-size: 15px; font-weight: 800; color: var(--slate-900); letter-spacing: -.4px; }
     .status-icons { display: flex; gap: 6px; align-items: center; }
     .status-icons svg { fill: var(--slate-800); }
-
     .dynamic-island {
-      position: absolute;
-      top: 11px; left: 50%;
-      transform: translateX(-50%);
-      width: 118px; height: 34px;
-      background: #071220;
-      border-radius: 20px;
+      position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
+      width: 118px; height: 34px; background: #071220; border-radius: 20px;
     }
+
+    /* ── 스크린 컨테이너 ──────────────────────────────── */
+    .screen-container {
+      flex: 1; position: relative; overflow: hidden;
+    }
+    .screen {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform .35s cubic-bezier(.22,1,.36,1);
+      will-change: transform;
+    }
+    .screen.active  { transform: translateX(0); }
+    .screen.exited  { transform: translateX(-30%); }
 
     /* ============================================================
-       앱 헤더 — 타이포 17px/700 (1-2)
+       화면 0: 스캔 / 업로드
     ============================================================ */
-    .app-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px 10px;
+    #screen-scan {
       background: #fff;
-      border-bottom: 1px solid var(--slate-100);
+    }
+    .scan-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px 10px; border-bottom: 1px solid var(--slate-100);
       flex-shrink: 0;
     }
+    .scan-header-title { font-size: 17px; font-weight: 700; color: var(--slate-900); letter-spacing: -.4px; }
+    .scan-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--em-400), var(--em-700));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; cursor: pointer;
+    }
+
+    .scan-body {
+      flex: 1; display: flex; flex-direction: column;
+      padding: 20px 20px 0; overflow-y: auto;
+      background-color: #f4f7fb;
+      background-image: radial-gradient(circle, rgba(148,163,184,.15) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+    .scan-body::-webkit-scrollbar { width: 0; }
+
+    .scan-viewfinder {
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, #e8f5e9, #f0fdf4);
+      border: 2px dashed var(--em-200);
+      padding: 36px 20px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      cursor: pointer; transition: border-color .2s, background .2s;
+      margin-bottom: 16px;
+    }
+    .scan-viewfinder:hover {
+      border-color: var(--em-500);
+      background: linear-gradient(145deg, #d1fae5, #ecfdf5);
+    }
+    .scan-viewfinder-icon { font-size: 48px; line-height: 1; }
+    .scan-viewfinder-title { font-size: 16px; font-weight: 700; color: var(--slate-800); letter-spacing: -.3px; }
+    .scan-viewfinder-sub { font-size: 12px; color: var(--slate-400); text-align: center; line-height: 1.6; }
+
+    .scan-btns { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+    .btn-primary {
+      width: 100%; height: 52px;
+      background: linear-gradient(135deg, var(--em-700), var(--em-500));
+      color: #fff; font-size: 16px; font-weight: 700; letter-spacing: -.2px;
+      border: none; border-radius: var(--radius-md); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 16px rgba(5,150,105,.38);
+      transition: transform .18s, box-shadow .18s; position: relative; overflow: hidden;
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,.15), transparent);
+      transform: skewX(-20deg); transition: left .4s ease;
+    }
+    .btn-primary:hover::before { left: 160%; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(5,150,105,.48); }
+    .btn-primary:active { transform: scale(.97); }
+
+    .btn-secondary {
+      width: 100%; height: 48px;
+      background: #fff; color: var(--em-700);
+      font-size: 15px; font-weight: 600;
+      border: 1.5px solid var(--em-200); border-radius: var(--radius-md);
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: border-color .15s, background .15s;
+    }
+    .btn-secondary:hover { border-color: var(--em-500); background: var(--em-50); }
+
+    .scan-divider { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .scan-divider-line { flex: 1; height: 1px; background: var(--slate-200); }
+    .scan-divider-text { font-size: 12px; color: var(--slate-400); font-weight: 500; }
+
+    .scan-search {
+      display: flex; align-items: center; gap: 8px;
+      background: #fff; border: 1.5px solid var(--slate-200);
+      border-radius: var(--radius-md); padding: 12px 14px;
+      margin-bottom: 20px; transition: border-color .15s;
+    }
+    .scan-search:focus-within { border-color: var(--em-400); }
+    .scan-search input {
+      border: none; outline: none; flex: 1;
+      font-size: 14px; color: var(--slate-800);
+      font-family: inherit;
+    }
+    .scan-search input::placeholder { color: var(--slate-400); }
+
+    .recent-label { font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--slate-400); margin-bottom: 10px; }
+    .recent-chips { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 16px; }
+    .recent-chip {
+      display: flex; align-items: center; gap: 5px;
+      background: #fff; border: 1px solid var(--slate-200);
+      border-radius: 20px; padding: 6px 12px;
+      font-size: 12px; font-weight: 600; color: var(--slate-700);
+      box-shadow: var(--shadow-sm);
+    }
+    .recent-chip .chip-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-golden { background: var(--orange-500); }
+    .dot-caution { background: var(--yellow-400); }
+    .dot-safe    { background: var(--slate-300); }
+
+    .scan-bottom {
+      padding: 10px 20px 16px; background: #f4f7fb; flex-shrink: 0;
+      border-top: 1px solid var(--slate-100);
+    }
+    .tab-bar { display: flex; justify-content: space-around; }
+    .tab-item { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 4px 16px; }
+    .tab-icon { font-size: 20px; }
+    .tab-label { font-size: 10px; font-weight: 600; color: var(--slate-400); }
+    .tab-item.active .tab-label { color: var(--em-600); }
+
+    /* 히든 파일 인풋 */
+    #fileInput { display: none; }
+
+    /* ============================================================
+       로딩 오버레이 (AI 분석 시뮬레이션)
+    ============================================================ */
+    .loading-overlay {
+      position: absolute; inset: 0; z-index: 100;
+      background: rgba(7, 18, 32, .92);
+      backdrop-filter: blur(8px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 24px; padding: 40px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    .loading-overlay.visible { opacity: 1; pointer-events: all; }
+
+    .loading-icon-wrap {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--em-700), var(--em-400));
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 0 0 0 rgba(16,185,129,.5);
+      animation: sonar 1.5s ease-out infinite;
+    }
+    @keyframes sonar {
+      0%   { box-shadow: 0 0 0 0   rgba(16,185,129,.5); }
+      70%  { box-shadow: 0 0 0 20px rgba(16,185,129,.0); }
+      100% { box-shadow: 0 0 0 0   rgba(16,185,129,.0); }
+    }
+
+    .loading-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -.4px; }
+
+    .loading-status {
+      font-size: 13px; color: rgba(255,255,255,.65); font-weight: 500;
+      text-align: center; min-height: 20px;
+      transition: opacity .3s;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      background: rgba(255,255,255,.12);
+      border-radius: 6px; height: 6px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--em-600), var(--em-400));
+      border-radius: 6px; width: 0%;
+      transition: width .5s cubic-bezier(.22,1,.36,1);
+    }
+    .progress-percent { font-size: 13px; color: var(--em-400); font-weight: 700; }
+
+    .loading-steps { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .loading-step {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12.5px; color: rgba(255,255,255,.4); font-weight: 500;
+      transition: color .3s;
+    }
+    .loading-step.done  { color: var(--em-400); }
+    .loading-step.active { color: #fff; }
+    .step-icon { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0; transition: all .3s; }
+    .loading-step.done  .step-icon { background: var(--em-500); border-color: var(--em-500); color: #fff; }
+    .loading-step.active .step-icon { border-color: var(--em-400); animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ============================================================
+       화면 1: 스캔 결과 (기존 화면)
+    ============================================================ */
+    #screen-results { background: #f4f7fb; }
+
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 20px; background: #fff;
+      border-bottom: 1px solid var(--slate-100); flex-shrink: 0;
+    }
     .header-back {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      color: var(--em-600);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 6px 8px 6px 4px;
-      border-radius: 8px;
+      display: flex; align-items: center; gap: 5px;
+      color: var(--em-600); font-size: 14px; font-weight: 600;
+      cursor: pointer; padding: 6px 8px 6px 2px; border-radius: 8px;
       transition: background .15s;
     }
     .header-back:hover { background: var(--em-50); }
-    .header-title {
-      font-size: var(--font-header);
-      font-weight: 700;
-      color: var(--slate-900);
-      letter-spacing: -.4px;
-    }
-    .header-share {
-      width: 34px; height: 34px;
-      border-radius: 50%;
+    .header-title { font-size: 17px; font-weight: 700; color: var(--slate-900); letter-spacing: -.4px; }
+    .header-icon {
+      width: 34px; height: 34px; border-radius: 50%;
       background: var(--slate-100);
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: background .15s, transform .15s;
+      cursor: pointer; transition: background .15s;
     }
-    .header-share:hover { background: var(--em-100); transform: scale(1.08); }
+    .header-icon:hover { background: var(--em-100); }
 
-    /* ============================================================
-       요약 바 — Emerald 그라데이션, 숫자 카운트업 (2-2 화면6)
-    ============================================================ */
+    /* 요약 바 */
     .summary-bar {
-      display: flex;
-      padding: 14px 20px;
-      background: linear-gradient(135deg, var(--em-700) 0%, var(--em-500) 100%);
-      flex-shrink: 0;
-      position: relative;
-      overflow: hidden;
+      display: flex; padding: 14px 20px;
+      background: linear-gradient(135deg, var(--em-700), var(--em-500));
+      flex-shrink: 0; position: relative; overflow: hidden;
     }
-    /* 배경 패턴 */
     .summary-bar::after {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='rgba(255,255,255,0.06)'/%3E%3C/svg%3E") repeat;
       pointer-events: none;
     }
-    .summary-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      position: relative;
-      z-index: 1;
-    }
-    .summary-item + .summary-item {
-      border-left: 1px solid rgba(255,255,255,.2);
-    }
-    .summary-num {
-      font-size: 26px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -1px;
-      line-height: 1;
-    }
-    .summary-label {
-      font-size: 11px;
-      color: rgba(255,255,255,.78);
-      font-weight: 500;
-      letter-spacing: .1px;
-    }
+    .summary-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; position: relative; z-index: 1; }
+    .summary-item + .summary-item { border-left: 1px solid rgba(255,255,255,.2); }
+    .summary-num { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -1px; line-height: 1; }
+    .summary-label { font-size: 11px; color: rgba(255,255,255,.78); font-weight: 500; }
 
-    /* ============================================================
-       스크롤 영역 — 콘텐츠 배경 (Background #f8fafc + 도트 패턴)
-    ============================================================ */
+    /* 콘텐츠 스크롤 */
     .content {
-      flex: 1;
-      overflow-y: auto;
+      flex: 1; overflow-y: auto; scroll-behavior: smooth;
       background-color: #f4f7fb;
-      background-image:
-        radial-gradient(circle, rgba(148,163,184,.18) 1px, transparent 1px);
+      background-image: radial-gradient(circle, rgba(148,163,184,.15) 1px, transparent 1px);
       background-size: 22px 22px;
-      scroll-behavior: smooth;
     }
     .content::-webkit-scrollbar { width: 0; }
 
-    /* ============================================================
-       섹션 헤더 — 11px/700/대문자 + 가로선 (1-2)
-    ============================================================ */
     .section { padding: 16px 16px 4px; }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-left: 2px; }
+    .section-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--slate-400); white-space: nowrap; }
+    .section-line { flex: 1; height: 1px; background: var(--slate-200); }
+    .section-count { font-size: 10.5px; font-weight: 600; color: var(--slate-400); background: var(--slate-100); border-radius: 10px; padding: 2px 7px; }
 
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-      padding-left: 2px;
-    }
-    .section-title {
-      font-size: var(--font-section);
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--slate-400);
-      white-space: nowrap;
-    }
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--slate-200);
-    }
-    .section-count {
-      font-size: 10.5px;
-      font-weight: 600;
-      color: var(--slate-400);
-      background: var(--slate-100);
-      border-radius: 10px;
-      padding: 2px 7px;
-    }
-
-    /* ============================================================
-       식재료 카드 — 1-4 컴포넌트 가이드 반영
-       · 좌측 4px 컬러 테두리
-       · 호버 시 2px lift + 그림자 강화
-       · fadeUp stagger 등장
-    ============================================================ */
+    /* 카드 */
     .card {
-      background: #fff;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      margin-bottom: var(--space-sm);
-      border-left: 4px solid transparent;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(16px);
+      background: #fff; border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm); margin-bottom: 8px;
+      border-left: 4px solid transparent; overflow: hidden;
+      opacity: 0; transform: translateY(16px);
       animation: fadeUp .45s cubic-bezier(.22,1,.36,1) forwards;
-      transition: transform .2s ease, box-shadow .2s ease;
-      cursor: default;
+      transition: transform .2s, box-shadow .2s;
     }
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
+    .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .card-inner {
-      display: flex;
-      align-items: flex-start;
-      padding: 13px 14px 11px;
-      gap: 12px;
-    }
-
-    .card-icon {
-      width: 42px; height: 42px;
-      border-radius: 11px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 21px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
+    .card-inner { display: flex; align-items: flex-start; padding: 13px 14px 11px; gap: 12px; }
+    .card-icon { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; margin-top: 1px; }
     .card-body { flex: 1; min-width: 0; }
+    .card-name { font-size: 15px; font-weight: 700; color: var(--slate-900); letter-spacing: -.3px; }
+    .card-qty { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; color: var(--slate-500); background: var(--slate-100); border-radius: 5px; padding: 2px 6px; margin-top: 5px; border: 1px solid var(--slate-200); }
+    .card-meta { font-size: 12px; color: var(--slate-400); margin-top: 4px; }
 
-    .card-name {
-      font-size: var(--font-card-name);
-      font-weight: 700;
-      color: var(--slate-900);
-      letter-spacing: -.3px;
-      line-height: 1.3;
-    }
+    .badge { font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; letter-spacing: .15px; margin-top: 2px; }
 
-    /* 수량 배지 — 인라인 소형 */
-    .card-qty {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--slate-500);
-      background: var(--slate-100);
-      border-radius: 5px;
-      padding: 2px 6px;
-      margin-top: 5px;
-      border: 1px solid var(--slate-200);
-    }
-    .card-qty-icon { font-size: 10px; opacity: .8; }
-
-    /* 유통기한 메타 */
-    .card-meta {
-      font-size: var(--font-meta);
-      color: var(--slate-400);
-      margin-top: 4px;
-      letter-spacing: -.1px;
-    }
-
-    /* ============================================================
-       배지 — 1-5 상태 표시 가이드
-    ============================================================ */
-    .badge {
-      font-size: var(--font-badge);
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      letter-spacing: .15px;
-      margin-top: 2px;
-    }
-
-    /* 카드 상태별 좌측 테두리 + 아이콘 배경 */
-    .card.expired { border-left-color: var(--red-500); }
-    .card.expired .card-icon  { background: #fff1f2; }
-
+    .card.expired { border-left-color: var(--red-500); animation: fadeUp .45s cubic-bezier(.22,1,.36,1) forwards, flash-border .6s ease .6s 1 forwards; }
+    .card.expired .card-icon { background: #fff1f2; }
     .card.golden  { border-left-color: var(--orange-500); }
-    .card.golden .card-icon   { background: #fff7ed; }
-
+    .card.golden  .card-icon { background: #fff7ed; }
     .card.caution { border-left-color: var(--yellow-400); }
-    .card.caution .card-icon  { background: #fefce8; }
-
+    .card.caution .card-icon { background: #fefce8; }
     .card.safe    { border-left-color: var(--slate-200); }
-    .card.safe .card-icon     { background: var(--slate-100); }
+    .card.safe    .card-icon { background: var(--slate-100); }
+    .card.blocked { border-left-color: var(--red-500); background: linear-gradient(to right, #fff5f5, #fff); }
+    .card.blocked .card-icon { background: #ffe4e6; }
 
-    .card.blocked {
-      border-left-color: var(--red-500);
-      background: linear-gradient(to right, #fff5f5, #fff);
-    }
-    .card.blocked .card-icon  { background: #ffe4e6; }
+    .badge.expired   { background: var(--red-500);    color: #fff; }
+    .badge.golden    { background: var(--orange-500); color: #fff; animation: pulse-glow 2s ease-in-out infinite; }
+    .badge.caution   { background: var(--yellow-400); color: #78350f; }
+    .badge.safe-b    { background: var(--slate-100);  color: var(--slate-500); border: 1px solid var(--slate-200); }
+    .badge.blocked-b { background: var(--red-500);    color: #fff; }
 
-    /* 배지 색상 (1-5) */
-    .badge.expired  { background: var(--red-500);    color: #fff; }
-    .badge.golden   { background: var(--orange-500); color: #fff; }
-    .badge.caution  { background: var(--yellow-400); color: #78350f; }
-    .badge.safe-b   { background: var(--slate-100);  color: var(--slate-500); border: 1px solid var(--slate-200); }
-    .badge.blocked-b{ background: var(--red-500);    color: #fff; }
-
-    /* ─── 골든타임 pulse-glow (2-2 화면6) ───────────────────────
-       0%   → shadow 0px / opacity 0.6
-       50%  → shadow 6px / opacity 0
-       반복: 2s infinite
-    ──────────────────────────────────────────────────────────── */
-    .badge.golden {
-      animation: pulse-glow 2s ease-in-out infinite;
-    }
     @keyframes pulse-glow {
       0%   { box-shadow: 0 0 0 0   rgba(249,115,22,.6); }
       50%  { box-shadow: 0 0 0 6px rgba(249,115,22,.0); }
       100% { box-shadow: 0 0 0 0   rgba(249,115,22,.0); }
-    }
-
-    /* ─── 기한초과 카드: 최초 로드 시 1회 빨간 테두리 flash ─── */
-    .card.expired {
-      animation: fadeUp .45s cubic-bezier(.22,1,.36,1) forwards,
-                 flash-border .6s ease .6s 1 forwards;
     }
     @keyframes flash-border {
       0%   { box-shadow: 0 0 0 2px rgba(239,68,68,.5); }
       100% { box-shadow: var(--shadow-sm); }
     }
 
-    /* ============================================================
-       차단 사유 텍스트
-    ============================================================ */
-    .blocked-reason {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11.5px;
-      color: var(--red-600);
-      font-weight: 600;
-      margin-top: 4px;
-    }
+    .blocked-reason { display: flex; align-items: center; gap: 4px; font-size: 11.5px; color: var(--red-600); font-weight: 600; margin-top: 4px; }
 
-    /* ============================================================
-       대체재 칩 행 (2-2 화면6: 차단 카드 0.2초 후 슬라이드업)
-    ============================================================ */
-    .substitute-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 0 14px 13px 68px;
-      flex-wrap: wrap;
-      opacity: 0;
-      transform: translateY(6px);
-      animation: slideUp .3s ease forwards;
-    }
-    /* 각 대체재 행의 딜레이는 인라인 style로 설정 */
-    @keyframes slideUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .substitute-row { display: flex; align-items: center; gap: 6px; padding: 0 14px 13px 68px; flex-wrap: wrap; opacity: 0; transform: translateY(6px); animation: slideUp .3s ease forwards; }
+    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+    .sub-label { font-size: 10.5px; color: var(--slate-400); font-weight: 600; letter-spacing: .2px; text-transform: uppercase; }
+    .sub-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--em-50); border: 1px solid var(--em-200); color: var(--em-700); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; cursor: pointer; transition: all .15s; white-space: nowrap; }
+    .sub-chip:hover { background: var(--em-100); border-color: var(--em-500); transform: translateY(-1px); }
 
-    .sub-label {
-      font-size: 10.5px;
-      color: var(--slate-400);
-      font-weight: 600;
-      letter-spacing: .2px;
-      text-transform: uppercase;
-    }
-    .sub-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: var(--em-50);
-      border: 1px solid var(--em-200);
-      color: var(--em-700);
-      font-size: 12px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background .15s, border-color .15s, transform .15s, box-shadow .15s;
-      white-space: nowrap;
-      letter-spacing: -.1px;
-    }
-    .sub-chip:hover {
-      background: var(--em-100);
-      border-color: var(--em-500);
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(5,150,105,.2);
-    }
-    .sub-chip:active { transform: scale(.96); }
-
-    /* ============================================================
-       탄소 절감 카드 (1-4 환경 임팩트 카드 가이드)
-    ============================================================ */
-    .carbon-card {
-      margin: 4px 16px 14px;
-      background: linear-gradient(135deg, var(--em-800) 0%, var(--em-600) 48%, var(--em-400) 100%);
-      border-radius: var(--radius-lg);
-      padding: 20px 20px 18px;
-      color: #fff;
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      animation: fadeUp .45s cubic-bezier(.22,1,.36,1) .9s forwards;
-      box-shadow: 0 8px 32px rgba(5,150,105,.35), 0 2px 8px rgba(0,0,0,.1);
-    }
-    /* 장식 원 */
-    .carbon-card::before {
-      content: '';
-      position: absolute;
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      border: 30px solid rgba(255,255,255,.08);
-      top: -55px; right: -45px;
-    }
-    .carbon-card::after {
-      content: '';
-      position: absolute;
-      width: 90px; height: 90px;
-      border-radius: 50%;
-      border: 16px solid rgba(255,255,255,.06);
-      bottom: -22px; right: 70px;
-    }
-
-    .carbon-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .carbon-icon {
-      width: 34px; height: 34px;
-      background: rgba(255,255,255,.18);
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .carbon-title    { font-size: 13.5px; font-weight: 700; }
-    .carbon-subtitle { font-size: 11px; opacity: .7; margin-top: 1px; }
-
-    .carbon-main {
-      display: flex;
-      align-items: baseline;
-      gap: 5px;
-      margin-bottom: 14px;
-    }
-    .carbon-num {
-      font-size: 42px;
-      font-weight: 800;
-      letter-spacing: -2px;
-      line-height: 1;
-    }
-    .carbon-unit  { font-size: 17px; font-weight: 600; opacity: .85; }
-    .carbon-label { font-size: 12px; opacity: .65; margin-left: 2px; }
-
-    .carbon-stats  { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
-    .carbon-stat {
-      font-size: 13px;
-      font-weight: 600;
-      opacity: .92;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .carbon-bar-wrap {
-      background: rgba(0,0,0,.18);
-      border-radius: 4px;
-      height: 6px;
-      overflow: hidden;
-    }
-    .carbon-bar-fill {
-      height: 100%;
-      background: linear-gradient(to right, rgba(255,255,255,.5), rgba(255,255,255,.8));
-      border-radius: 4px;
-      width: 0%;
-      transition: width 1.6s cubic-bezier(.22,1,.36,1) .3s;
-    }
-
-    /* ============================================================
-       CTA 버튼 — Primary 버튼 (1-3 높이 52px, 반경 14px)
-    ============================================================ */
-    .cta-wrap {
-      padding: 10px 16px 18px;
-      background: #f4f7fb;
-      flex-shrink: 0;
-    }
-    .cta-btn {
-      width: 100%;
-      padding: 0 20px;
-      height: 52px;
-      background: linear-gradient(135deg, var(--em-700) 0%, var(--em-500) 100%);
-      color: #fff;
-      font-size: var(--font-cta);
-      font-weight: 700;
-      letter-spacing: -.2px;
-      border: none;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      /* 1-3 그림자 */
-      box-shadow: 0 4px 16px rgba(5,150,105,.38);
-      transition: transform .18s ease, box-shadow .18s ease;
-      opacity: 0;
-      animation: fadeUp .4s ease 1.1s forwards;
-      position: relative;
-      overflow: hidden;
-    }
-    /* 버튼 shimmer (hover 시) */
-    .cta-btn::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 60%; height: 100%;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,.15), transparent);
-      transform: skewX(-20deg);
-      transition: left .4s ease;
-    }
-    .cta-btn:hover::before { left: 160%; }
-    .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(5,150,105,.48);
-    }
-    .cta-btn:active { transform: scale(.97); }
-
-    .cta-arrow {
-      font-size: 18px;
-      transition: transform .2s ease;
-    }
-    .cta-btn:hover .cta-arrow { transform: translateX(4px); }
-
-    /* ============================================================
-       홈 인디케이터
-    ============================================================ */
-    .home-indicator {
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f4f7fb;
-      flex-shrink: 0;
-    }
-    .home-bar {
-      width: 128px; height: 5px;
-      background: var(--slate-300);
-      border-radius: 3px;
-    }
-
-    /* ============================================================
-       fadeUp stagger 딜레이 (2-2 화면6: 50ms 간격)
-    ============================================================ */
+    /* 카드 stagger */
     .card:nth-child(1) { animation-delay: .04s; }
     .card:nth-child(2) { animation-delay: .10s; }
     .card:nth-child(3) { animation-delay: .16s; }
@@ -698,354 +411,857 @@
     .card:nth-child(7) { animation-delay: .43s; }
     .card:nth-child(8) { animation-delay: .50s; }
 
+    /* CTA 버튼 공통 */
+    .cta-wrap { padding: 10px 16px 18px; background: #f4f7fb; flex-shrink: 0; }
+    .cta-btn {
+      width: 100%; height: 52px;
+      background: linear-gradient(135deg, var(--em-700), var(--em-500));
+      color: #fff; font-size: 16px; font-weight: 700; letter-spacing: -.2px;
+      border: none; border-radius: var(--radius-md); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 16px rgba(5,150,105,.38);
+      transition: transform .18s, box-shadow .18s; position: relative; overflow: hidden;
+    }
+    .cta-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,.15), transparent); transform: skewX(-20deg); transition: left .4s; }
+    .cta-btn:hover::before { left: 160%; }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(5,150,105,.48); }
+    .cta-btn:active { transform: scale(.97); }
+    .cta-arrow { font-size: 18px; transition: transform .2s; }
+    .cta-btn:hover .cta-arrow { transform: translateX(4px); }
+
+    .home-indicator { height: 30px; display: flex; align-items: center; justify-content: center; background: #f4f7fb; flex-shrink: 0; }
+    .home-bar { width: 128px; height: 5px; background: var(--slate-300); border-radius: 3px; }
+
     /* ============================================================
-       데스크탑 레이블
+       화면 2: 레시피 추천
     ============================================================ */
+    #screen-recipe { background: #f4f7fb; }
+
+    /* 골든타임 재료 하이라이트 배너 */
+    .golden-banner {
+      background: linear-gradient(135deg, #c2410c, var(--orange-500));
+      padding: 14px 20px; flex-shrink: 0; position: relative; overflow: hidden;
+    }
+    .golden-banner::after {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E") repeat;
+      pointer-events: none;
+    }
+    .golden-banner-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.75); margin-bottom: 6px; }
+    .golden-banner-chips { display: flex; gap: 6px; flex-wrap: wrap; position: relative; z-index: 1; }
+    .golden-chip {
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.3);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 5px 11px; border-radius: 20px;
+    }
+    .golden-chip-dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+
+    /* 레시피 콘텐츠 */
+    .recipe-content { flex: 1; overflow-y: auto; padding: 14px 16px; background-color: #f4f7fb; background-image: radial-gradient(circle, rgba(148,163,184,.15) 1px, transparent 1px); background-size: 22px 22px; }
+    .recipe-content::-webkit-scrollbar { width: 0; }
+
+    /* 레시피 카드 */
+    .recipe-card {
+      background: #fff; border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm); margin-bottom: 14px;
+      overflow: hidden;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp .45s cubic-bezier(.22,1,.36,1) forwards;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .recipe-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .recipe-card:nth-child(1) { animation-delay: .06s; }
+    .recipe-card:nth-child(2) { animation-delay: .14s; }
+    .recipe-card:nth-child(3) { animation-delay: .22s; }
+    .recipe-card:nth-child(4) { animation-delay: .30s; }
+
+    /* 레시피 상단 이미지 영역 */
+    .recipe-thumb {
+      height: 90px; display: flex; align-items: center; justify-content: center;
+      font-size: 48px; position: relative; overflow: hidden;
+    }
+    /* 각 레시피별 배경 그라데이션 */
+    .thumb-1 { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+    .thumb-2 { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+    .thumb-3 { background: linear-gradient(135deg, #fff7ed, #fed7aa); }
+    .thumb-4 { background: linear-gradient(135deg, #f0f9ff, #bae6fd); }
+
+    /* 골든타임 재료 사용 뱃지 */
+    .recipe-urgent-badge {
+      position: absolute; top: 8px; right: 8px;
+      background: var(--orange-500); color: #fff;
+      font-size: 10px; font-weight: 700; padding: 3px 8px;
+      border-radius: 10px; letter-spacing: .2px;
+    }
+
+    .recipe-body { padding: 14px 16px 16px; }
+    .recipe-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+    .recipe-title { font-size: 16px; font-weight: 800; color: var(--slate-900); letter-spacing: -.4px; }
+    .recipe-meta { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+    .recipe-meta-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--slate-500); font-weight: 500; }
+
+    /* ── 탄소 절감 별점 ─────────────────────────────── */
+    .carbon-score { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+    .carbon-score-label { font-size: 9.5px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: var(--slate-400); }
+    .carbon-stars { display: flex; gap: 2px; }
+    .leaf-icon {
+      width: 18px; height: 18px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      transition: transform .15s;
+    }
+    .leaf-icon.filled  { background: var(--em-50); }
+    .leaf-icon.empty   { background: var(--slate-100); filter: grayscale(1) opacity(.4); }
+    .carbon-score-num { font-size: 10px; color: var(--em-600); font-weight: 700; }
+
+    /* 식재료 칩 목록 */
+    .recipe-ingredients { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .ing-chip { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+    .ing-chip.have    { background: var(--em-50); color: var(--em-700); border: 1px solid var(--em-200); }
+    .ing-chip.missing { background: var(--slate-100); color: var(--slate-400); border: 1px solid var(--slate-200); text-decoration: line-through; }
+    .ing-chip.golden-ing { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .ing-chip.blocked-ing { background: var(--red-50); color: var(--red-600); border: 1px solid #fecaca; }
+
+    /* CO2 절감 인라인 바 */
+    .co2-inline {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+      background: var(--em-50); border-radius: 8px; padding: 8px 10px;
+      border: 1px solid var(--em-100);
+    }
+    .co2-inline-icon { font-size: 14px; }
+    .co2-inline-text { font-size: 12px; font-weight: 600; color: var(--em-700); flex: 1; }
+    .co2-inline-val { font-size: 13px; font-weight: 800; color: var(--em-600); }
+
+    /* 버튼 행 */
+    .recipe-btn-row { display: flex; gap: 8px; }
+    .recipe-btn-view {
+      flex: 1; height: 40px;
+      background: #fff; color: var(--em-700); font-size: 13px; font-weight: 700;
+      border: 1.5px solid var(--em-200); border-radius: 10px; cursor: pointer;
+      transition: all .15s;
+    }
+    .recipe-btn-view:hover { background: var(--em-50); border-color: var(--em-500); }
+    .recipe-btn-buy {
+      height: 40px; padding: 0 16px;
+      background: linear-gradient(135deg, var(--em-700), var(--em-500));
+      color: #fff; font-size: 13px; font-weight: 700;
+      border: none; border-radius: 10px; cursor: pointer;
+      display: flex; align-items: center; gap: 5px;
+      box-shadow: 0 2px 8px rgba(5,150,105,.3);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .recipe-btn-buy:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(5,150,105,.4); }
+
+    /* 하단 더보기 버튼 */
+    .more-btn {
+      width: 100%; height: 46px;
+      background: #fff; color: var(--slate-600); font-size: 14px; font-weight: 600;
+      border: 1.5px solid var(--slate-200); border-radius: var(--radius-md); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-bottom: 16px; transition: all .15s;
+    }
+    .more-btn:hover { background: var(--em-50); color: var(--em-700); border-color: var(--em-200); }
+
+    /* 탄소 임팩트 카드 */
+    .carbon-card {
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, var(--em-800), var(--em-600), var(--em-400));
+      border-radius: var(--radius-lg); padding: 18px 18px 16px; color: #fff;
+      position: relative; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(5,150,105,.35);
+      opacity: 0; animation: fadeUp .45s cubic-bezier(.22,1,.36,1) .4s forwards;
+    }
+    .carbon-card::before { content: ''; position: absolute; width: 180px; height: 180px; border-radius: 50%; border: 30px solid rgba(255,255,255,.08); top: -55px; right: -45px; }
+    .carbon-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .carbon-icon-box { width: 34px; height: 34px; background: rgba(255,255,255,.18); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .carbon-title { font-size: 13.5px; font-weight: 700; }
+    .carbon-subtitle { font-size: 11px; opacity: .7; margin-top: 1px; }
+    .carbon-nums { display: flex; gap: 20px; margin-bottom: 12px; }
+    .carbon-num-item { display: flex; flex-direction: column; gap: 2px; }
+    .carbon-big { font-size: 28px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+    .carbon-unit { font-size: 13px; opacity: .8; }
+    .carbon-stat-row { font-size: 12.5px; font-weight: 600; opacity: .9; display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .carbon-bar-wrap { background: rgba(0,0,0,.18); border-radius: 4px; height: 6px; overflow: hidden; }
+    .carbon-bar-fill { height: 100%; background: linear-gradient(to right, rgba(255,255,255,.5), rgba(255,255,255,.8)); border-radius: 4px; width: 0%; transition: width 1.6s cubic-bezier(.22,1,.36,1) .3s; }
+
+    /* ── 데스크탑 레이블 ──────────────────────────────── */
     .desktop-label {
-      position: fixed;
-      bottom: 26px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.1);
-      backdrop-filter: blur(16px);
-      padding: 8px 20px;
-      border-radius: 40px;
-      color: rgba(255,255,255,.55);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: .3px;
-      white-space: nowrap;
-      z-index: 5;
+      position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(16px); padding: 8px 20px; border-radius: 40px;
+      color: rgba(255,255,255,.55); font-size: 12px; font-weight: 500;
+      letter-spacing: .3px; white-space: nowrap; z-index: 5;
     }
     .desktop-label strong { color: rgba(255,255,255,.88); }
-
-    /* 요약 숫자 카운트업 애니메이션용 */
-    .summary-num { transition: opacity .3s; }
   </style>
 </head>
 <body>
 
-  <!-- 배경 블롭 -->
-  <div class="bg-blob bg-blob-1"></div>
-  <div class="bg-blob bg-blob-2"></div>
-  <div class="bg-blob bg-blob-3"></div>
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
 
-  <!-- ── 폰 프레임 ────────────────────────────────────── -->
-  <div class="phone">
+<!-- ══════════════════════════════════════════════════════
+     폰 프레임
+══════════════════════════════════════════════════════ -->
+<div class="phone">
 
-    <!-- 상태바 -->
-    <div class="status-bar">
-      <div class="dynamic-island"></div>
-      <span class="status-time">9:41</span>
-      <div class="status-icons">
-        <svg width="17" height="12" viewBox="0 0 17 12">
-          <rect x="0"   y="8"   width="3" height="4" rx="1"/>
-          <rect x="4.5" y="5.5" width="3" height="6.5" rx="1"/>
-          <rect x="9"   y="3"   width="3" height="9" rx="1"/>
-          <rect x="13.5" y="0"  width="3" height="12" rx="1"/>
-        </svg>
-        <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-          <path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="#1e293b"/>
-          <path d="M3.5 6.8A6.5 6.5 0 0 1 8 5a6.5 6.5 0 0 1 4.5 1.8" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <path d="M1 3.8A10 10 0 0 1 8 1a10 10 0 0 1 7 2.8" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        </svg>
-        <svg width="25" height="12" viewBox="0 0 25 12">
-          <rect x="0" y="1" width="21" height="10" rx="2.5" stroke="#1e293b" stroke-width="1.2" fill="none"/>
-          <rect x="22" y="3.5" width="2.5" height="5" rx="1.2" fill="#1e293b"/>
-          <rect x="1.5" y="2.5" width="15" height="7" rx="1.5" fill="#1e293b"/>
-        </svg>
-      </div>
+  <!-- 공통 상태바 -->
+  <div class="status-bar">
+    <div class="dynamic-island"></div>
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12">
+        <rect x="0"   y="8"   width="3" height="4"   rx="1"/>
+        <rect x="4.5" y="5.5" width="3" height="6.5" rx="1"/>
+        <rect x="9"   y="3"   width="3" height="9"   rx="1"/>
+        <rect x="13.5" y="0"  width="3" height="12"  rx="1"/>
+      </svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="#1e293b"/>
+        <path d="M3.5 6.8A6.5 6.5 0 0 1 8 5a6.5 6.5 0 0 1 4.5 1.8" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M1 3.8A10 10 0 0 1 8 1a10 10 0 0 1 7 2.8" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <svg width="25" height="12" viewBox="0 0 25 12">
+        <rect x="0" y="1" width="21" height="10" rx="2.5" stroke="#1e293b" stroke-width="1.2" fill="none"/>
+        <rect x="22" y="3.5" width="2.5" height="5" rx="1.2" fill="#1e293b"/>
+        <rect x="1.5" y="2.5" width="15" height="7" rx="1.5" fill="#1e293b"/>
+      </svg>
     </div>
-
-    <!-- 앱 헤더 -->
-    <div class="app-header">
-      <div class="header-back">
-        <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
-          <path d="M7 1L1 6.5L7 12" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        뒤로
-      </div>
-      <span class="header-title">스캔 결과</span>
-      <div class="header-share">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-          <circle cx="18" cy="5"  r="3" stroke="#64748b" stroke-width="2"/>
-          <circle cx="6"  cy="12" r="3" stroke="#64748b" stroke-width="2"/>
-          <circle cx="18" cy="19" r="3" stroke="#64748b" stroke-width="2"/>
-          <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" stroke="#64748b" stroke-width="2"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- 요약 바 -->
-    <div class="summary-bar">
-      <div class="summary-item">
-        <span class="summary-num" id="sum-total">0</span>
-        <span class="summary-label">인식됨</span>
-      </div>
-      <div class="summary-item">
-        <span class="summary-num" id="sum-safe">0</span>
-        <span class="summary-label">✅ 안전</span>
-      </div>
-      <div class="summary-item">
-        <span class="summary-num" id="sum-blocked">0</span>
-        <span class="summary-label">🚫 차단</span>
-      </div>
-    </div>
-
-    <!-- 스크롤 콘텐츠 -->
-    <div class="content" id="content">
-
-      <!-- ── 사용 가능 섹션 ── -->
-      <div class="section">
-        <div class="section-header">
-          <span class="section-title">사용 가능</span>
-          <div class="section-line"></div>
-          <span class="section-count">5개</span>
-        </div>
-
-        <!-- 1. 달걀 — 기한초과 -->
-        <div class="card expired">
-          <div class="card-inner">
-            <div class="card-icon">🥚</div>
-            <div class="card-body">
-              <div class="card-name">달걀</div>
-              <span class="card-qty"><span class="card-qty-icon">📦</span>6개 보유</span>
-              <div class="card-meta">유통기한 초과 · 2일 지남</div>
-            </div>
-            <span class="badge expired">기한초과</span>
-          </div>
-        </div>
-
-        <!-- 2. 우유 — 골든타임 -->
-        <div class="card golden">
-          <div class="card-inner">
-            <div class="card-icon">🥛</div>
-            <div class="card-body">
-              <div class="card-name">우유</div>
-              <span class="card-qty"><span class="card-qty-icon">📦</span>1팩 (900ml) 보유</span>
-              <div class="card-meta">D-1 · 내일까지</div>
-            </div>
-            <span class="badge golden">골든타임</span>
-          </div>
-        </div>
-
-        <!-- 3. 당근 — 주의 -->
-        <div class="card caution">
-          <div class="card-inner">
-            <div class="card-icon">🥕</div>
-            <div class="card-body">
-              <div class="card-name">당근</div>
-              <span class="card-qty"><span class="card-qty-icon">📦</span>2개 보유</span>
-              <div class="card-meta">D-4 · 4일 남음</div>
-            </div>
-            <span class="badge caution">주의</span>
-          </div>
-        </div>
-
-        <!-- 4. 양파 — 여유 -->
-        <div class="card safe">
-          <div class="card-inner">
-            <div class="card-icon">🧅</div>
-            <div class="card-body">
-              <div class="card-name">양파</div>
-              <span class="card-qty"><span class="card-qty-icon">📦</span>3개 보유</span>
-              <div class="card-meta">D-28 · 여유 있음</div>
-            </div>
-            <span class="badge safe-b">여유</span>
-          </div>
-        </div>
-
-        <!-- 5. 브로콜리 — 기한미입력 -->
-        <div class="card safe">
-          <div class="card-inner">
-            <div class="card-icon">🥦</div>
-            <div class="card-body">
-              <div class="card-name">브로콜리</div>
-              <span class="card-qty"><span class="card-qty-icon">📦</span>1개 보유</span>
-              <div class="card-meta">유통기한 미입력</div>
-            </div>
-            <span class="badge safe-b">기한미입력</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── 사용 불가 섹션 ── -->
-      <div class="section">
-        <div class="section-header">
-          <span class="section-title">사용 불가 · 대체 재료 추천</span>
-          <div class="section-line"></div>
-          <span class="section-count">3개</span>
-        </div>
-
-        <!-- 6. 설탕 — 당뇨 -->
-        <div class="card blocked">
-          <div class="card-inner">
-            <div class="card-icon">🍬</div>
-            <div class="card-body">
-              <div class="card-name">설탕</div>
-              <span class="card-qty"><span class="card-qty-icon">📦</span>500g 보유</span>
-              <div class="blocked-reason">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
-                질환 제한: 당뇨
-              </div>
-            </div>
-            <span class="badge blocked-b">차단</span>
-          </div>
-        </div>
-        <div class="substitute-row" style="animation-delay:.55s">
-          <span class="sub-label">대체재</span>
-          <span class="sub-chip">🔄 스테비아</span>
-          <span class="sub-chip">🔄 알룰로스</span>
-        </div>
-
-        <!-- 7. 소금 — 고혈압 -->
-        <div class="card blocked">
-          <div class="card-inner">
-            <div class="card-icon">🧂</div>
-            <div class="card-body">
-              <div class="card-name">소금</div>
-              <span class="card-qty"><span class="card-qty-icon">📦</span>300g 보유</span>
-              <div class="blocked-reason">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
-                질환 제한: 고혈압
-              </div>
-            </div>
-            <span class="badge blocked-b">차단</span>
-          </div>
-        </div>
-        <div class="substitute-row" style="animation-delay:.63s">
-          <span class="sub-label">대체재</span>
-          <span class="sub-chip">🔄 저나트륨 소금</span>
-          <span class="sub-chip">🔄 레몬즙</span>
-        </div>
-
-        <!-- 8. 우유 (알레르기) -->
-        <div class="card blocked">
-          <div class="card-inner">
-            <div class="card-icon">🥛</div>
-            <div class="card-body">
-              <div class="card-name">
-                우유 <span style="font-size:11px;font-weight:500;color:var(--slate-400);">(2번째)</span>
-              </div>
-              <span class="card-qty"><span class="card-qty-icon">📦</span>1팩 (200ml) 보유</span>
-              <div class="blocked-reason">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
-                알레르기: 우유
-              </div>
-            </div>
-            <span class="badge blocked-b">차단</span>
-          </div>
-        </div>
-        <div class="substitute-row" style="animation-delay:.71s">
-          <span class="sub-label">대체재</span>
-          <span class="sub-chip">🔄 귀리 음료</span>
-          <span class="sub-chip">🔄 두유</span>
-        </div>
-      </div>
-
-      <!-- ── 환경 임팩트 카드 (2-2 화면7: 진입 시 카운트업) ── -->
-      <div class="carbon-card" id="carbonCard">
-        <div class="carbon-header">
-          <div class="carbon-icon">🌿</div>
-          <div>
-            <div class="carbon-title">오늘의 환경 임팩트</div>
-            <div class="carbon-subtitle">골든타임 재료 소비 시 예상 절감량</div>
-          </div>
-        </div>
-        <div class="carbon-main">
-          <span class="carbon-num" id="co2Counter">0</span>
-          <span class="carbon-unit">kg</span>
-          <span class="carbon-label">CO₂ 절감</span>
-        </div>
-        <div class="carbon-stats">
-          <div class="carbon-stat">🚗 자동차 10.3km 주행 절약과 같아요</div>
-          <div class="carbon-stat">🌳 나무 1그루가 21.6일간 흡수하는 양</div>
-        </div>
-        <div class="carbon-bar-wrap">
-          <div class="carbon-bar-fill" id="carbonBar"></div>
-        </div>
-      </div>
-
-    </div><!-- /content -->
-
-    <!-- CTA 버튼 (1-3 Primary: 높이 52px, 반경 14px, 그림자) -->
-    <div class="cta-wrap">
-      <button class="cta-btn">
-        레시피 추천 받기
-        <span class="cta-arrow">→</span>
-      </button>
-    </div>
-
-    <!-- 홈 인디케이터 -->
-    <div class="home-indicator">
-      <div class="home-bar"></div>
-    </div>
-
-  </div><!-- /phone -->
-
-  <!-- 데스크탑 레이블 -->
-  <div class="desktop-label">
-    <strong>NutriLens</strong> &nbsp;·&nbsp; 스캔 결과 — UI/UX 프로토타입
   </div>
 
-  <script>
-    // ──────────────────────────────────────────────────
-    // 요약 숫자 카운트업 (2-2 화면6)
-    // ──────────────────────────────────────────────────
-    function countUp(el, target, duration, delay) {
-      setTimeout(() => {
-        const start = performance.now();
-        const update = (now) => {
-          const p = Math.min((now - start) / duration, 1);
-          const ease = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(target * ease);
-          if (p < 1) requestAnimationFrame(update);
-          else el.textContent = target;
-        };
-        requestAnimationFrame(update);
-      }, delay);
+  <!-- ── 스크린 컨테이너 ── -->
+  <div class="screen-container">
+
+    <!-- 로딩 오버레이 (AI 분석 시뮬레이션) -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-icon-wrap">🔬</div>
+      <div style="text-align:center">
+        <div class="loading-title">AI 분석 중...</div>
+        <div class="loading-status" id="loadingStatus">이미지를 불러오는 중</div>
+      </div>
+      <div style="width:100%">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:12px;color:rgba(255,255,255,.5)">진행률</span>
+          <span class="progress-percent" id="progressPct">0%</span>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+      <div class="loading-steps">
+        <div class="loading-step" id="step1">
+          <div class="step-icon">1</div>
+          <span>이미지 전처리 및 식재료 감지</span>
+        </div>
+        <div class="loading-step" id="step2">
+          <div class="step-icon">2</div>
+          <span>식재료명 · 수량 · 유통기한 인식</span>
+        </div>
+        <div class="loading-step" id="step3">
+          <div class="step-icon">3</div>
+          <span>건강 프로필 대조 (질환/알레르기)</span>
+        </div>
+        <div class="loading-step" id="step4">
+          <div class="step-icon">4</div>
+          <span>골든타임 우선순위 점수 계산</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────────
+         화면 0: 스캔 / 업로드
+    ──────────────────────────────────────────────── -->
+    <div class="screen active" id="screen-scan">
+      <div class="scan-header">
+        <span style="font-size:20px">🥬</span>
+        <span class="scan-header-title">NutriLens</span>
+        <div class="scan-avatar">👤</div>
+      </div>
+
+      <div class="scan-body">
+        <!-- 뷰파인더 클릭 시도 파일 선택 -->
+        <div class="scan-viewfinder" onclick="document.getElementById('fileInput').click()">
+          <div class="scan-viewfinder-icon">📸</div>
+          <div class="scan-viewfinder-title">냉장고 사진을 올려주세요</div>
+          <div class="scan-viewfinder-sub">AI가 식재료를 자동으로 인식하고<br>건강 프로필에 맞게 분류해 드립니다</div>
+        </div>
+        <input type="file" id="fileInput" accept="image/*">
+
+        <div class="scan-btns">
+          <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+            📷 &nbsp;카메라 스캔
+          </button>
+          <button class="btn-secondary" onclick="document.getElementById('fileInput').click()">
+            🖼️ &nbsp;갤러리 선택
+          </button>
+        </div>
+
+        <div class="scan-divider">
+          <div class="scan-divider-line"></div>
+          <span class="scan-divider-text">또는 직접 입력</span>
+          <div class="scan-divider-line"></div>
+        </div>
+
+        <div class="scan-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="8" stroke="#94a3b8" stroke-width="2"/>
+            <path d="m21 21-4.35-4.35" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input type="text" placeholder="식재료 이름 검색...">
+        </div>
+
+        <div class="recent-label">최근 등록</div>
+        <div class="recent-chips">
+          <div class="recent-chip"><div class="chip-dot dot-golden"></div>우유 (D-1)</div>
+          <div class="recent-chip"><div class="chip-dot dot-caution"></div>당근 (D-4)</div>
+          <div class="recent-chip"><div class="chip-dot dot-safe"></div>양파 (D-28)</div>
+        </div>
+      </div>
+
+      <div class="scan-bottom">
+        <div class="tab-bar">
+          <div class="tab-item active">
+            <span class="tab-icon">🏠</span>
+            <span class="tab-label">홈</span>
+          </div>
+          <div class="tab-item">
+            <span class="tab-icon">📷</span>
+            <span class="tab-label">스캔</span>
+          </div>
+          <div class="tab-item">
+            <span class="tab-icon">📋</span>
+            <span class="tab-label">레시피</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────────
+         화면 1: 스캔 결과
+    ──────────────────────────────────────────────── -->
+    <div class="screen" id="screen-results">
+      <div class="app-header">
+        <div class="header-back" onclick="goTo('screen-scan')">
+          <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
+            <path d="M7 1L1 6.5L7 12" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          뒤로
+        </div>
+        <span class="header-title">스캔 결과</span>
+        <div class="header-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+            <circle cx="18" cy="5" r="3" stroke="#64748b" stroke-width="2"/>
+            <circle cx="6" cy="12" r="3" stroke="#64748b" stroke-width="2"/>
+            <circle cx="18" cy="19" r="3" stroke="#64748b" stroke-width="2"/>
+            <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" stroke="#64748b" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="summary-bar">
+        <div class="summary-item">
+          <span class="summary-num" id="sum-total">8</span>
+          <span class="summary-label">인식됨</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-num" id="sum-safe">5</span>
+          <span class="summary-label">✅ 안전</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-num" id="sum-blocked">3</span>
+          <span class="summary-label">🚫 차단</span>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="section">
+          <div class="section-header">
+            <span class="section-title">사용 가능</span>
+            <div class="section-line"></div>
+            <span class="section-count">5개</span>
+          </div>
+
+          <div class="card expired">
+            <div class="card-inner">
+              <div class="card-icon">🥚</div>
+              <div class="card-body">
+                <div class="card-name">달걀</div>
+                <span class="card-qty">📦 6개 보유</span>
+                <div class="card-meta">유통기한 초과 · 2일 지남</div>
+              </div>
+              <span class="badge expired">기한초과</span>
+            </div>
+          </div>
+
+          <div class="card golden">
+            <div class="card-inner">
+              <div class="card-icon">🥛</div>
+              <div class="card-body">
+                <div class="card-name">우유</div>
+                <span class="card-qty">📦 1팩 (900ml) 보유</span>
+                <div class="card-meta">D-1 · 내일까지</div>
+              </div>
+              <span class="badge golden">골든타임</span>
+            </div>
+          </div>
+
+          <div class="card caution">
+            <div class="card-inner">
+              <div class="card-icon">🥕</div>
+              <div class="card-body">
+                <div class="card-name">당근</div>
+                <span class="card-qty">📦 2개 보유</span>
+                <div class="card-meta">D-4 · 4일 남음</div>
+              </div>
+              <span class="badge caution">주의</span>
+            </div>
+          </div>
+
+          <div class="card safe">
+            <div class="card-inner">
+              <div class="card-icon">🧅</div>
+              <div class="card-body">
+                <div class="card-name">양파</div>
+                <span class="card-qty">📦 3개 보유</span>
+                <div class="card-meta">D-28 · 여유 있음</div>
+              </div>
+              <span class="badge safe-b">여유</span>
+            </div>
+          </div>
+
+          <div class="card safe">
+            <div class="card-inner">
+              <div class="card-icon">🥦</div>
+              <div class="card-body">
+                <div class="card-name">브로콜리</div>
+                <span class="card-qty">📦 1개 보유</span>
+                <div class="card-meta">유통기한 미입력</div>
+              </div>
+              <span class="badge safe-b">기한미입력</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <span class="section-title">사용 불가 · 대체 재료 추천</span>
+            <div class="section-line"></div>
+            <span class="section-count">3개</span>
+          </div>
+
+          <div class="card blocked">
+            <div class="card-inner">
+              <div class="card-icon">🍬</div>
+              <div class="card-body">
+                <div class="card-name">설탕</div>
+                <span class="card-qty">📦 500g 보유</span>
+                <div class="blocked-reason">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
+                  질환 제한: 당뇨
+                </div>
+              </div>
+              <span class="badge blocked-b">차단</span>
+            </div>
+          </div>
+          <div class="substitute-row" style="animation-delay:.55s">
+            <span class="sub-label">대체재</span>
+            <span class="sub-chip">🔄 스테비아</span>
+            <span class="sub-chip">🔄 알룰로스</span>
+          </div>
+
+          <div class="card blocked">
+            <div class="card-inner">
+              <div class="card-icon">🧂</div>
+              <div class="card-body">
+                <div class="card-name">소금</div>
+                <span class="card-qty">📦 300g 보유</span>
+                <div class="blocked-reason">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
+                  질환 제한: 고혈압
+                </div>
+              </div>
+              <span class="badge blocked-b">차단</span>
+            </div>
+          </div>
+          <div class="substitute-row" style="animation-delay:.63s">
+            <span class="sub-label">대체재</span>
+            <span class="sub-chip">🔄 저나트륨 소금</span>
+            <span class="sub-chip">🔄 레몬즙</span>
+          </div>
+
+          <div class="card blocked">
+            <div class="card-inner">
+              <div class="card-icon">🥛</div>
+              <div class="card-body">
+                <div class="card-name">우유 <span style="font-size:11px;color:var(--slate-400);font-weight:500">(2번째)</span></div>
+                <span class="card-qty">📦 1팩 (200ml) 보유</span>
+                <div class="blocked-reason">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#dc2626"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>
+                  알레르기: 우유
+                </div>
+              </div>
+              <span class="badge blocked-b">차단</span>
+            </div>
+          </div>
+          <div class="substitute-row" style="animation-delay:.71s">
+            <span class="sub-label">대체재</span>
+            <span class="sub-chip">🔄 귀리 음료</span>
+            <span class="sub-chip">🔄 두유</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-wrap">
+        <button class="cta-btn" onclick="goTo('screen-recipe')">
+          레시피 추천 받기
+          <span class="cta-arrow">→</span>
+        </button>
+      </div>
+      <div class="home-indicator"><div class="home-bar"></div></div>
+    </div>
+
+    <!-- ────────────────────────────────────────────────
+         화면 2: 레시피 추천
+    ──────────────────────────────────────────────── -->
+    <div class="screen" id="screen-recipe">
+      <div class="app-header">
+        <div class="header-back" onclick="goTo('screen-results')">
+          <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
+            <path d="M7 1L1 6.5L7 12" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          뒤로
+        </div>
+        <span class="header-title">레시피 추천</span>
+        <div class="header-icon" style="font-size:17px;background:transparent">✨</div>
+      </div>
+
+      <!-- 골든타임 재료 하이라이트 배너 -->
+      <div class="golden-banner">
+        <div class="golden-banner-label">⏰ 지금 써야 할 재료</div>
+        <div class="golden-banner-chips">
+          <div class="golden-chip"><div class="golden-chip-dot"></div>달걀 (기한초과)</div>
+          <div class="golden-chip"><div class="golden-chip-dot"></div>우유 (D-1)</div>
+          <div class="golden-chip"><div class="golden-chip-dot"></div>당근 (D-4)</div>
+        </div>
+      </div>
+
+      <div class="recipe-content" id="recipeContent">
+
+        <!-- ── 레시피 1: 달걀 스크램블 ── -->
+        <div class="recipe-card">
+          <div class="recipe-thumb thumb-1">
+            🍳
+            <div class="recipe-urgent-badge">골든타임 2개 사용</div>
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-top">
+              <div>
+                <div class="recipe-title">달걀 스크램블</div>
+                <div class="recipe-meta">
+                  <div class="recipe-meta-item">⏱ <span>10분</span></div>
+                  <div class="recipe-meta-item">👤 <span>1인분</span></div>
+                  <div class="recipe-meta-item">🔥 <span>220kcal</span></div>
+                </div>
+              </div>
+              <div class="carbon-score">
+                <span class="carbon-score-label">탄소 절감</span>
+                <div class="carbon-stars">
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                </div>
+                <span class="carbon-score-num">0.89 kg CO₂</span>
+              </div>
+            </div>
+            <div class="recipe-ingredients">
+              <span class="ing-chip golden-ing">⚡ 달걀 3개</span>
+              <span class="ing-chip golden-ing">⚡ 우유 50ml</span>
+              <span class="ing-chip missing">버터 (없음)</span>
+              <span class="ing-chip blocked-ing">🚫 소금</span>
+            </div>
+            <div class="co2-inline">
+              <span class="co2-inline-icon">🌱</span>
+              <span class="co2-inline-text">이 레시피를 만들면</span>
+              <span class="co2-inline-val">0.89 kg CO₂ 절감</span>
+            </div>
+            <div class="recipe-btn-row">
+              <button class="recipe-btn-view">레시피 보기</button>
+              <button class="recipe-btn-buy">🛒 부족 재료 구매</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 레시피 2: 달걀찜 ── -->
+        <div class="recipe-card">
+          <div class="recipe-thumb thumb-2">
+            🥚
+            <div class="recipe-urgent-badge">골든타임 2개 사용</div>
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-top">
+              <div>
+                <div class="recipe-title">달걀찜</div>
+                <div class="recipe-meta">
+                  <div class="recipe-meta-item">⏱ <span>20분</span></div>
+                  <div class="recipe-meta-item">👤 <span>2인분</span></div>
+                  <div class="recipe-meta-item">🔥 <span>180kcal</span></div>
+                </div>
+              </div>
+              <div class="carbon-score">
+                <span class="carbon-score-label">탄소 절감</span>
+                <div class="carbon-stars">
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                </div>
+                <span class="carbon-score-num">0.98 kg CO₂</span>
+              </div>
+            </div>
+            <div class="recipe-ingredients">
+              <span class="ing-chip golden-ing">⚡ 달걀 4개</span>
+              <span class="ing-chip golden-ing">⚡ 우유 100ml</span>
+              <span class="ing-chip have">✅ 당근</span>
+              <span class="ing-chip blocked-ing">🚫 소금</span>
+            </div>
+            <div class="co2-inline">
+              <span class="co2-inline-icon">🌱</span>
+              <span class="co2-inline-text">이 레시피를 만들면</span>
+              <span class="co2-inline-val">0.98 kg CO₂ 절감</span>
+            </div>
+            <div class="recipe-btn-row">
+              <button class="recipe-btn-view">레시피 보기</button>
+              <button class="recipe-btn-buy">🛒 부족 재료 구매</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 레시피 3: 당근 양파 볶음 ── -->
+        <div class="recipe-card">
+          <div class="recipe-thumb thumb-3">🥕</div>
+          <div class="recipe-body">
+            <div class="recipe-top">
+              <div>
+                <div class="recipe-title">당근 양파 볶음</div>
+                <div class="recipe-meta">
+                  <div class="recipe-meta-item">⏱ <span>15분</span></div>
+                  <div class="recipe-meta-item">👤 <span>2인분</span></div>
+                  <div class="recipe-meta-item">🔥 <span>120kcal</span></div>
+                </div>
+              </div>
+              <div class="carbon-score">
+                <span class="carbon-score-label">탄소 절감</span>
+                <div class="carbon-stars">
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon empty">🍃</div>
+                  <div class="leaf-icon empty">🍃</div>
+                </div>
+                <span class="carbon-score-num">0.16 kg CO₂</span>
+              </div>
+            </div>
+            <div class="recipe-ingredients">
+              <span class="ing-chip have">✅ 당근 1개</span>
+              <span class="ing-chip have">✅ 양파 1개</span>
+              <span class="ing-chip missing">올리브오일 (없음)</span>
+              <span class="ing-chip missing">마늘 (없음)</span>
+            </div>
+            <div class="co2-inline">
+              <span class="co2-inline-icon">🌱</span>
+              <span class="co2-inline-text">이 레시피를 만들면</span>
+              <span class="co2-inline-val">0.16 kg CO₂ 절감</span>
+            </div>
+            <div class="recipe-btn-row">
+              <button class="recipe-btn-view">레시피 보기</button>
+              <button class="recipe-btn-buy">🛒 부족 재료 구매</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 레시피 4: 브로콜리 수프 ── -->
+        <div class="recipe-card">
+          <div class="recipe-thumb thumb-4">🥦</div>
+          <div class="recipe-body">
+            <div class="recipe-top">
+              <div>
+                <div class="recipe-title">브로콜리 채소 수프</div>
+                <div class="recipe-meta">
+                  <div class="recipe-meta-item">⏱ <span>25분</span></div>
+                  <div class="recipe-meta-item">👤 <span>2인분</span></div>
+                  <div class="recipe-meta-item">🔥 <span>95kcal</span></div>
+                </div>
+              </div>
+              <div class="carbon-score">
+                <span class="carbon-score-label">탄소 절감</span>
+                <div class="carbon-stars">
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon filled">🍃</div>
+                  <div class="leaf-icon empty">🍃</div>
+                  <div class="leaf-icon empty">🍃</div>
+                  <div class="leaf-icon empty">🍃</div>
+                </div>
+                <span class="carbon-score-num">0.11 kg CO₂</span>
+              </div>
+            </div>
+            <div class="recipe-ingredients">
+              <span class="ing-chip have">✅ 브로콜리</span>
+              <span class="ing-chip have">✅ 당근</span>
+              <span class="ing-chip have">✅ 양파</span>
+              <span class="ing-chip missing">육수 (없음)</span>
+            </div>
+            <div class="co2-inline">
+              <span class="co2-inline-icon">🌱</span>
+              <span class="co2-inline-text">이 레시피를 만들면</span>
+              <span class="co2-inline-val">0.11 kg CO₂ 절감</span>
+            </div>
+            <div class="recipe-btn-row">
+              <button class="recipe-btn-view">레시피 보기</button>
+              <button class="recipe-btn-buy">🛒 부족 재료 구매</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 더보기 -->
+        <button class="more-btn">다른 레시피 더 보기 ↓</button>
+
+        <!-- 탄소 임팩트 카드 -->
+        <div class="carbon-card" id="carbonCard">
+          <div class="carbon-header">
+            <div class="carbon-icon-box">🌿</div>
+            <div>
+              <div class="carbon-title">오늘의 환경 임팩트</div>
+              <div class="carbon-subtitle">골든타임 재료 모두 소비 시 예상 절감량</div>
+            </div>
+          </div>
+          <div class="carbon-nums">
+            <div class="carbon-num-item">
+              <div class="carbon-big" id="co2Counter">0</div>
+              <div class="carbon-unit">kg CO₂ 절감</div>
+            </div>
+          </div>
+          <div class="carbon-stat-row">
+            <span>🚗 자동차 10.3km 주행 절약과 같아요</span>
+            <span>🌳 나무 1그루가 21.6일간 흡수하는 양</span>
+          </div>
+          <div class="carbon-bar-wrap">
+            <div class="carbon-bar-fill" id="carbonBar"></div>
+          </div>
+        </div>
+
+      </div><!-- /recipe-content -->
+
+      <div class="home-indicator"><div class="home-bar"></div></div>
+    </div>
+
+  </div><!-- /screen-container -->
+</div><!-- /phone -->
+
+<div class="desktop-label">
+  <strong>NutriLens</strong> &nbsp;·&nbsp; MVP 인터랙티브 데모 &nbsp;·&nbsp; 사진 업로드 버튼을 눌러보세요
+</div>
+
+<script>
+  // ── 화면 전환 ──────────────────────────────────────────────
+  let currentScreen = 'screen-scan';
+
+  function goTo(targetId) {
+    const current = document.getElementById(currentScreen);
+    const target  = document.getElementById(targetId);
+    current.classList.remove('active');
+    current.classList.add('exited');
+    target.classList.add('active');
+    currentScreen = targetId;
+
+    // 뒤로 갈 때 exited 클래스 리셋
+    setTimeout(() => { current.classList.remove('exited'); }, 400);
+
+    // 레시피 화면 진입 시 탄소 애니메이션
+    if (targetId === 'screen-recipe') initCarbonAnim();
+  }
+
+  // ── 파일 선택 → 로딩 시뮬레이션 ──────────────────────────
+  document.getElementById('fileInput').addEventListener('change', function() {
+    if (this.files && this.files.length > 0) startLoading();
+    this.value = ''; // 같은 파일 재선택 가능하게 리셋
+  });
+
+  const steps = [
+    { id: 'step1', msg: '이미지를 전처리하는 중...',   pct: 22  },
+    { id: 'step2', msg: '식재료명과 유통기한 인식 중...', pct: 55 },
+    { id: 'step3', msg: '건강 프로필과 대조 중...',    pct: 78  },
+    { id: 'step4', msg: '결과를 정리하는 중...',       pct: 95  },
+  ];
+
+  function startLoading() {
+    const overlay   = document.getElementById('loadingOverlay');
+    const fill      = document.getElementById('progressFill');
+    const pctEl     = document.getElementById('progressPct');
+    const statusEl  = document.getElementById('loadingStatus');
+
+    // 초기화
+    steps.forEach(s => {
+      const el = document.getElementById(s.id);
+      el.classList.remove('done', 'active');
+    });
+    fill.style.width = '0%';
+    pctEl.textContent = '0%';
+    statusEl.textContent = '이미지를 불러오는 중...';
+    overlay.classList.add('visible');
+
+    let i = 0;
+    function nextStep() {
+      if (i >= steps.length) {
+        // 완료
+        fill.style.width = '100%';
+        pctEl.textContent = '100%';
+        statusEl.textContent = '✅ 분석 완료!';
+        setTimeout(() => {
+          overlay.classList.remove('visible');
+          goTo('screen-results');
+        }, 600);
+        return;
+      }
+      const s = steps[i];
+      if (i > 0) document.getElementById(steps[i-1].id).classList.replace('active', 'done');
+      document.getElementById(s.id).classList.add('active');
+      fill.style.width = s.pct + '%';
+      pctEl.textContent = s.pct + '%';
+      statusEl.textContent = s.msg;
+      i++;
+      setTimeout(nextStep, 700);
     }
+    setTimeout(nextStep, 300);
+  }
 
-    countUp(document.getElementById('sum-total'),   8, 600,  200);
-    countUp(document.getElementById('sum-safe'),    5, 600,  350);
-    countUp(document.getElementById('sum-blocked'), 3, 600,  500);
-
-    // ──────────────────────────────────────────────────
-    // 탄소 카드: IntersectionObserver로 뷰포트 진입 감지
-    // → 숫자 카운트업 1400ms + 진행 바 채워짐 (2-2 화면7)
-    // ──────────────────────────────────────────────────
-    const carbonCard = document.getElementById('carbonCard');
-    const carbonBar  = document.getElementById('carbonBar');
-    const co2El      = document.getElementById('co2Counter');
-
-    function animateFloat(el, target, duration) {
+  // ── 탄소 카운트업 ─────────────────────────────────────────
+  function initCarbonAnim() {
+    const bar  = document.getElementById('carbonBar');
+    const el   = document.getElementById('co2Counter');
+    setTimeout(() => { bar.style.width = '62%'; }, 300);
+    setTimeout(() => {
       const start = performance.now();
-      const update = (now) => {
-        const p = Math.min((now - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        el.textContent = (target * ease).toFixed(2);
-        if (p < 1) requestAnimationFrame(update);
-        else el.textContent = target.toFixed(2);
+      const run = (now) => {
+        const p = Math.min((now - start) / 1400, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = (1.24 * e).toFixed(2);
+        if (p < 1) requestAnimationFrame(run);
+        else el.textContent = '1.24';
       };
-      requestAnimationFrame(update);
-    }
+      requestAnimationFrame(run);
+    }, 400);
+  }
 
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          setTimeout(() => { carbonBar.style.width = '62%'; }, 200);
-          setTimeout(() => { animateFloat(co2El, 1.24, 1400); }, 300);
-          obs.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
-
-    obs.observe(carbonCard);
-  </script>
-
+  // IntersectionObserver로 탄소 카드 감지
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { initCarbonAnim(); obs.disconnect(); } });
+  }, { threshold: 0.4 });
+  obs.observe(document.getElementById('carbonCard'));
+</script>
 </body>
 </html>
