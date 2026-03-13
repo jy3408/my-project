@@ -37,8 +37,8 @@
 
 ## 5. 기술 스택
 
-- **프론트엔드:** React Native — iOS, Android 동시 배포
-- **백엔드:** FastAPI (Python) — 빠르고 간결한 AI 연동 API 서버
+- **프론트엔드:** React Native (하이브리드) — 네이티브 모듈(카메라/센서)과 WebView(콘텐츠 UI) 분리 운용. 앱 재배포 없이 콘텐츠 즉시 반영.
+- **백엔드:** FastAPI (Python) — Gemini AI 연동 최적화 (Python 생태계), 비동기 이미지 처리 파이프라인
 - **데이터베이스:** PostgreSQL — 사용자 건강 프로필 및 레시피 데이터 저장
 - **AI 모델:** Gemini 1.5 Pro — 냉장고 사진 멀티모달 분석
 - **인프라:** Supabase — 인증, DB, 스토리지 통합 관리
